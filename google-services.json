@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "241194615475",
+    "project_id": "fiedex-a9896",
+    "storage_bucket": "fiedex-a9896.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241194615475:android:bdc4894e4733fb1a99a6c6",
+        "android_client_info": {
+          "package_name": "com.shalinisinha2.Fiedex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241194615475-udmbcg45pc03a41t07oqa7rsb3bav29n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shalinisinha2.Fiedex",
+            "certificate_hash": "4580a3e9d62977e559260ad3170dc996a8676e23"
+          }
+        },
+        {
+          "client_id": "241194615475-buh7p95q2j9otmr69iooiam4bua46c5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAedgE9TAfz6bZc1O0qE34uun27Vu7DNT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241194615475-buh7p95q2j9otmr69iooiam4bua46c5n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

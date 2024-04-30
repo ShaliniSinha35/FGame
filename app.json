@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Fiedex",
-    "slug": "Fiedex",
+    "slug": "fiedex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "googleServicesFile": "./google-services.json",
+      "package": "com.shalinisinha2.Fiedex"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9b670821-7cac-41ca-b812-491611a0b70a"
+      }
+    },
+    "scheme": "fiedex"
   }
 }
