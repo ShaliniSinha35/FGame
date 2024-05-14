@@ -1,80 +1,211 @@
-import { View, Text, ImageBackground, Dimensions, TouchableOpacity,Image,ScrollView } from 'react-native'
+import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React from 'react'
-import { AntDesign,FontAwesome,FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 const Wallet = () => {
 
-  const height=Dimensions.get('screen').height
+  const height = Dimensions.get('screen').height
   const width = Dimensions.get('screen').width
   return (
     <ScrollView>
-  <ImageBackground source={require("../assets/B7.png")} style={{height:height,width:width}}>
+    <ImageBackground source={require("../assets/B7.png")} style={{  width: width,height:height }}>
 
-   <View style={{width:width,alignItems:"center",marginTop:100}}>
-    <View style={{width:300,backgroundColor:"#f01c8b",opacity:1,borderRadius:20,alignItems:"center",justifyContent:"center",borderWidth:1,borderColor:"#fff",paddingTop:10,paddingBottom:10}}>
-      <View style={{alignItems:"center"}}>
+      <View style={{ width: width, alignItems: "center", marginTop: 40 }}>
+        <View style={{ opacity: 1, borderRadius: 20, alignItems: "center", justifyContent: "center", paddingTop: 10, paddingBottom: 10 }}>
 
-      <Text allowFontScaling={false} style={{color:"#fff",fontSize:15}}>Your Wallet  </Text>
-      {/* <Image source={require("../assets/coin.png")} style={{height:30,width:30}}></Image> */}
+          <View style={{ flexDirection: "row",alignItems:"center" }}>
+          {/* <Image source={require("../assets/wallet.png")} style={{height:30,width:30,resizeMode:"contain"}}></Image> */}
+            <Image source={require("../assets/coin.png")} style={{ height: 40, width: 45, marginTop: 5 }}></Image>
+
+            <Text allowFontScaling={false}style={{ color: "#fff", fontSize: 25, marginTop: 5 }}>10,000</Text>
+            {/* <TouchableOpacity style={{ backgroundColor: "#f01c8b", width: 120, alignItems: "center", borderRadius: 20, justifyContent: "center", marginLeft: 10, borderWidth: 1, borderColor: "#fff",padding:10 }}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 18 }}>Exchange <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity> */}
+
+
+
+          </View>
+
+          {/* <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+            <Text allowFontScaling={false}style={{ color: "#fff", fontSize: 15 }}>Account:  </Text>
+            <View style={{ borderColor: "#fff", borderWidth: 1, width: 180, height: 40, flexDirection: "row", alignItems: "center", padding: 5 }}>
+
+              <Text allowFontScaling={false} style={{ color: "#fff" }}>0xc94****74d89</Text>
+              <View style={{ height: '100%', width: 1, backgroundColor: '#909090', marginLeft: 15 }}>
+              </View>
+              <AntDesign name="copy1" size={24} color="#f01c8b" style={{ marginLeft: 20 }} />
+            </View>
+          </View> */}
+
+
+        </View>
+
+        <View >
+
+        </View>
+
+
       </View>
-<View style={{flexDirection:"row"}}>
-<Image source={require("../assets/coin.png")} style={{height:30,width:30,marginTop:5}}></Image>
-
-<Text style={{color:"#fff",fontSize:16,marginTop:10,textAlign:"center"}}>0.00 points</Text>
-
-</View>
 
 
-    </View>
-
-<View >
-
-</View>
+  
 
 
-   </View>
+      <View style={{ width: width, alignItems: "center", marginTop: 50, borderWidth: 2, borderColor: "#fff", borderTopLeftRadius: 10, paddingTop: 20 , borderTopRighttRadius: 10,paddingBottom:10,height:height}}>
 
 
-   <View style={{width:width,alignItems:"center",marginTop:100}}>
-    <View style={{width:350,backgroundColor:"#3c1642",opacity:1,borderRadius:20,padding:20,borderWidth:1,borderColor:"#fff"}}>
-    <Text allowFontScaling={false} style={{color:"#fff"}}>Staking Vault : </Text>
+        <View style={{ flexDirection: "row", width: width, justifyContent: "space-evenly" }}>
+          <Text allowFontScaling={false} style={{ color: "#fff" }}>Token Assets</Text>
 
-  <Text allowFontScaling={false}
-                    style={{
-                        height: 1,
-                        borderColor: "#f01c8b",
-                        borderWidth: 0.5,
-                        marginTop: 10,
-                        width: 300,
-                        marginBottom: 15,
-                    
-                    }}
-                />  
+          <View style={{ height: '100%', width: 1, backgroundColor: '#909090' }}>
+          </View>
 
 
-        <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-        <View>
-      <Text allowFontScaling={false} style={{color:"#fff",fontSize:15,marginTop:10}}>Total Staking yields</Text>
-      <Text allowFontScaling={false} style={{color:"#fff",fontSize:12,marginTop:10,marginLeft:30}}><FontAwesome5 name="coins" size={24} color="#ffba08" />  0</Text>
-        </View> 
-        <TouchableOpacity style={{backgroundColor:"#f01c8b",width:80,alignItems:"center",borderRadius:20,justifyContent:"center"}}><Text style={{color:"#fff",fontSize:18}}>Go  <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity> 
-          </View>        
+          <Text allowFontScaling={false} style={{ color: "#fff" }}> NFT </Text>
 
-            
+        </View>
 
 
-    </View>
+        <ScrollView>
+          <View style={{ width: 350, backgroundColor: "#3c1642", opacity: 1, borderRadius: 10, borderWidth: 1, borderColor: "#fff", paddingTop: 10, marginTop: 50 }}>
+            <View style={{ alignItems: "flex-start", paddingLeft: 10 }}>
+              <Text allowFontScaling={false} style={{ color: "#fff" }}>Token</Text>
+            </View>
 
-<View >
+            <View style={{ width: 320, backgroundColor: "#3c1642", padding: 20 }}>
 
-</View>
+              <View style={{ flexDirection: "row" }}>
+                <View style={{ height: 30, width: 30, borderRadius: 30, backgroundColor: "black" }}></View>
+                <View style={{ flexDirection: "column", marginLeft: 20 }}>
+                  <Text allowFontScaling={false} style={{ color: "#fff", fontWeight: 800 }}>0 Fiedex </Text>
+                  <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 10 }}>Fiedex Protocol</Text>
+
+                </View>
+              </View>
+
+              <View style={{ flexDirection: "row", marginTop: 20 }}>
+                <View style={{ height: 30, width: 30, borderRadius: 30, backgroundColor: "black" }}></View>
+                <View style={{ flexDirection: "column", marginLeft: 20 }}>
+                  <Text allowFontScaling={false} style={{ color: "#fff", fontWeight: 800 }}>0 Fiedex</Text>
+                  <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 10 }}>Fiedex USD</Text>
+
+                </View>
+              </View>
 
 
-   </View>
-    
-     
-  </ImageBackground>
-  </ScrollView>
+              <View style={{ flexDirection: "row", width: 320, justifyContent: "space-around", marginTop: 25 }}>
+                <TouchableOpacity style={{ backgroundColor: "#f01c8b", width: 120, alignItems: "center", borderRadius: 20, justifyContent: "center", padding: 10, borderWidth: 1, borderColor: "#fff" }}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 15 }}>Deposit  <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: "#f01c8b", width: 120, alignItems: "center", borderRadius: 20, justifyContent: "center", padding: 10, borderWidth: 1, borderColor: "#fff" }}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 15 }}>Withdraw  <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity>
+              </View>
+
+
+            </View>
+
+
+            {/* <View style={{ width: 350, alignItems: "center" }}>
+              <Text allowFontScaling={false} 
+                style={{
+                  height: 1,
+                  borderColor: "#fff",
+                  borderWidth: 0.5,
+                  marginTop: 15,
+                  width: 340,
+                  marginBottom: 15,
+
+                }}
+              />
+            </View>
+            <View style={{ width: 320, backgroundColor: "#3c1642", padding: 20 }}>
+
+              <View style={{ flexDirection: "row" }}>
+                <View style={{ height: 30, width: 30, borderRadius: 30, backgroundColor: "black" }}></View>
+                <View style={{ flexDirection: "column", marginLeft: 20 }}>
+                  <Text allowFontScaling={false} style={{ color: "#fff", fontWeight: 800 }}>0.0 uHGT</Text>
+                  <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 10 }}>unlocked Hooked Gold Token</Text>
+
+                </View>
+              </View>
+
+
+
+
+              <View style={{ flexDirection: "row", width: 320, justifyContent: "space-around", marginTop: 20 }}>
+                <TouchableOpacity style={{ backgroundColor: "#f01c8b", width: 180, alignItems: "center", borderRadius: 20, justifyContent: "center", padding: 10, borderWidth: 1, borderColor: "#fff" }}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 18 }}>Convert to Hook  <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity>
+              </View>
+
+
+            </View> */}
+
+
+
+
+
+
+
+
+
+
+
+
+            <View >
+
+            </View>
+
+
+          </View>
+
+
+
+
+          <View style={{ width: 350, backgroundColor: "#3c1642", opacity: 1, borderRadius: 10, padding: 20, borderWidth: 1, borderColor: "#fff", marginTop: 70 }}>
+
+            <Text allowFontScaling={false}  style={{ color: "#fff" }}>Staking Vault : </Text>
+
+            <Text allowFontScaling={false} 
+              style={{
+                height: 1,
+                borderColor: "#f01c8b",
+                borderWidth: 0.5,
+                marginTop: 10,
+                width: 300,
+                marginBottom: 15,
+
+              }}
+            />
+
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <View>
+                <Text allowFontScaling={false}  style={{ color: "#fff", fontSize: 15, marginTop: 10 }}>Total Staking yields</Text>
+
+                <View style={{flexDirection:"row",alignItems:"center",marginTop:5}}>
+                  <Image source={require("../assets/coin.png")} style={{height:30,width:30,resizeMode:"contain"}}></Image>
+                <Text allowFontScaling={false}style={{ color: "#fff", fontSize: 12 }}>0</Text>
+
+                </View>
+
+              </View>
+          
+              <TouchableOpacity style={{ backgroundColor: "#f01c8b",  alignItems: "center", borderRadius: 20, justifyContent: "center" , borderWidth: 1, borderColor: "#fff",padding:15}}><Text allowFontScaling={false}  style={{ color: "#fff", fontSize: 15 }}>Go  <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity>
+            </View>
+
+
+
+
+
+            <View >
+
+            </View>
+
+
+          </View>
+
+        </ScrollView>
+      </View>
+
+
+    </ImageBackground>
+    </ScrollView>
+
+
   )
 }
 

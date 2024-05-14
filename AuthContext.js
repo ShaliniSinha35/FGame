@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
 
 
 
+
   const register = async(value) => {
     console.log("register called")
 
@@ -42,48 +43,39 @@ export const AuthProvider = ({ children }) => {
 
 
   const isAlreadyLogin =async()=>{
+
+    
  
-    try {
-      const value = await AsyncStorage.getItem('loginUser')
-      if(value !== null) {
-       
-        const data= JSON.parse(value)
-         setUser(data)
-         setMobile(data.mobile)
-         setIsLoginValue(true);
-      }
-      else{
-        setIsLoginValue(false);
-      }
+    setIsLoginValue(true);
   
-    } catch(e) {
-      console.log("38 error",e)
-    }
-  }
+    } 
+
 
   const login = async() => {
+    setIsLoginValue(true);
+    setIsLogoutValue(false)
   
-    try {
-      const value = await AsyncStorage.getItem('user')
-      if(value !== null) {
+    // try {
+    //   const value = await AsyncStorage.getItem('user')
+    //   if(value !== null) {
        
-        const data= JSON.parse(value)
-         setUser(data)
-         setMobile(data.mobile)
-         await AsyncStorage.setItem("loginUser",JSON.stringify(data))
-         setIsLoginValue(true);
-         setIsLogoutValue(false)
-      }
+    //     const data= JSON.parse(value)
+    //      setUser(data)
+    //      setMobile(data.mobile)
+    //      await AsyncStorage.setItem("loginUser",JSON.stringify(data))
+    //      setIsLoginValue(true);
+    //      setIsLogoutValue(false)
+    //   }
   
-    } catch(e) {
-      console.log("38 error",e)
-    }
+    // } catch(e) {
+    //   console.log("38 error",e)
+    // }
 
   };
 
   const logout = async() => {
     try{
-     await AsyncStorage.removeItem('loginUser')
+    //  await AsyncStorage.removeItem('loginUser')
      setIsLoginValue(false);
      setIsLogoutValue(true);
     }
@@ -92,6 +84,9 @@ export const AuthProvider = ({ children }) => {
     }
 
   };
+
+
+
 
   
 

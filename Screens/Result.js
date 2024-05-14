@@ -29,13 +29,14 @@ const Result = ({ navigation, route }) => {
     <ImageBackground source={require("../assets/B5.png")} style={styles.container}>
       <View style={styles.subContainer}>
         <View style={{flexDirection:"row"}}>
-        <Text style={{ fontSize: 20,color:"#fff" }}>Your Points  </Text>
-        <Image source={require("../assets/money.png")} style={{height:30,width:30,resizeMode:"contain"}}></Image>
+        <Text style={{ fontSize: 20,color:"#fff" }}>  Your Points</Text>
+        {/* <Image source={require("../assets/money.png")} style={{height:30,width:30,resizeMode:"contain"}}></Image> */}
         </View>
       
 
 
         <View style={styles.textWrapper}>
+          <Image source={require("../assets/coin.png")} style={{width:40,height:40}}></Image>
           <Text style={styles.score}>{score}</Text>
 
 
@@ -81,8 +82,8 @@ const styles = StyleSheet.create({
   
   },
   textWrapper: {
-    // flexDirection: "row",
-    justifyContent: "flex-start",
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     marginVertical: 20,
   },

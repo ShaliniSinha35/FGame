@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Fiedex",
-    "slug": "fiedex",
+    "slug": "Fiedex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -30,9 +28,13 @@
     },
     "extra": {
       "eas": {
-        "projectId": "9b670821-7cac-41ca-b812-491611a0b70a"
+        "projectId": "514aedf5-4621-458e-82fd-c24c446f3032"
       }
     },
+    "plugins": [
+      "@react-native-firebase/app", 
+      "@react-native-firebase/auth",
+      "@react-native-firebase/messaging"],
     "scheme": "fiedex"
   }
 }

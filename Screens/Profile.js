@@ -1,20 +1,108 @@
 import { View, Text,ImageBackground, Dimensions, TouchableOpacity, StyleSheet, Image,Switch, ScrollView } from 'react-native'
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { FontAwesome6,AntDesign ,FontAwesome5} from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 const width = Dimensions.get('screen').width
 const height = Dimensions.get('screen').height
 import { useAuth } from '../AuthContext';
+import messaging from '@react-native-firebase/messaging';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+
 // import { Switch, VStack, Center, NativeBaseProvider,HStack,ChevronRightIcon } from "native-base";
 
 const Profile = ({navigation}) => {
 
+
+
+
+  
+  
+
   const { isLoginValue , isAlreadyLogin,logout,isLogoutValue} = useAuth();
 
-  const {mobile}=useAuth()
+  const {mobile} = useAuth()
 
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+
+  
+  const toggleSwitch = async () => {
+    setIsEnabled(!isEnabled);
+   
+   
+ 
+  }
+
+
+
+  const dispatch = useDispatch()
+  
+
+//   async function requestUserPermission() {
+//     const authStatus = await messaging().requestPermission();
+//     const enabled =
+//       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+//     if (enabled) {
+//       console.log('Authorization status:', authStatus);
+   
+//     }
+   
+//   }
+  
+
+
+
+
+//   useEffect(()=>{
+
+
+// if(requestUserPermission()){
+//    messaging.getToken().then((token)=>{
+//     console.log(token);
+//    })
+// }
+// else{
+//   console.log("Permission not granted", authStatus)
+// }
+
+
+// messaging.getInitialNotification().then(async(remoteMessage)=>{
+//   if(remoteMessage){
+//     console.log("Notification caused app to open from quit state:",
+//   remoteMessage.notification)
+//   }
+// })
+
+
+
+// messaging.onNotificationOpenedApp((remoteMessage)=>{
+//   console.log("Notification caused app to open from background state",
+// remoteMessage.notification)
+// })
+
+
+// messaging.setBackgroundMessageHandler((remoteMessage)=>{
+//   console.log(" background state",
+// remoteMessage.notification)
+// })
+
+// const unsubscribe= messaging().onMessage(async(remoteMessage)=>{
+//   Alert.alert('A new FCM message arrived!',JSON.stringify(remoteMessage))
+// })
+
+// return unsubscribe;
+
+//   },[])
+
+
+
+//   messaging().onMessage(async remoteMessage => {
+//     console.log('A new FCM message arrived!', remoteMessage);
+//   });
 
   const profile =[
     
@@ -53,13 +141,16 @@ const Profile = ({navigation}) => {
 ]
 
 
-
-
   const handleLogout=async()=>{
-   
-    logout()
+    dispatch({ type: 'CLEAR_USER_INFO' });
+    // logout()
 
 }
+
+
+
+
+
   return (
 
     <ScrollView>
@@ -92,7 +183,7 @@ const Profile = ({navigation}) => {
   {
     profile.map((item)=>(
       <>
-      <TouchableOpacity onPress={()=>navigation.navigate(item.url)} key={item.id} style={{width:width,flexDirection:"row",justifyContent:"space-between",padding:10,marginTop:item.id==0?20:20}}>
+      <TouchableOpacity  onPress={()=>navigation.navigate(item.url)} key={item.id} style={{width:width,flexDirection:"row",justifyContent:"space-between",padding:10,marginTop:item.id==0?20:20}}>
       <Text allowFontScaling={false} style={{fontSize:15,color:"#fff"}}>{item.icon}   {item.name}</Text>
      
       <View>
@@ -102,7 +193,7 @@ const Profile = ({navigation}) => {
         <Switch
     trackColor={{false: '#767577', true: '#fff'}}
     thumbColor={isEnabled ? '#f01c8b' : '#f4f3f4'}
-    onValueChange={toggleSwitch}
+    onValueChange={()=>toggleSwitch()}
     value={isEnabled}
     style={{position:"absolute",right:10,top:-15}}
     

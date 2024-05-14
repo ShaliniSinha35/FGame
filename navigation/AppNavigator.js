@@ -43,6 +43,8 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import About from "../Screens/About";
 import Contact from "../Screens/Contact";
 import Deregister from "../Screens/Deregister";
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,17 +56,24 @@ const AppNavigator = () => {
 
 
     console.log("isLoinValue", isLoginValue, isLogoutValue)
+    const userInfo = useSelector(state => state.user.userInfo);
+    console.log("userinfo",userInfo)
+    useEffect(()=>{
+       
+    },[userInfo])
+
+    // useEffect(() => {
+ 
+    // }, [isLoginValue]);
 
 
-    useEffect(() => {
-        isLogin();
-    }, [isLoginValue]);
+    const dispatch = useDispatch();
 
 
 
 
     const handleLogout = async (navigation) => {
-
+        dispatch({ type: 'CLEAR_USER_INFO' });
         navigation.navigate("Login");
         logout()
 
@@ -148,9 +157,6 @@ const AppNavigator = () => {
 
     const BottomNavigator = () => {
 
-        // if (!isLoginValue) {
-        //     return null;
-        // }
         return (
             <Tab.Navigator
                 screenOptions={{ tabBarStyle: { elevation: 15, height: 65, borderTopWidth: 1, backgroundColor: "#3c1642", opacity: 1, borderColor: "#3c1642" } }}
@@ -221,6 +227,7 @@ const AppNavigator = () => {
                     name="Mining"
                     component={MiningScreen}
                     options={{
+                        headerShown: false,
                         tabBarLabel: "Minning",
                         tabBarLabelStyle: { color: "#fff", fontSize: 12, marginBottom: 5 },
                         tabBarIcon: ({ focused }) =>
@@ -398,7 +405,7 @@ const AppNavigator = () => {
 
 
                 {
-                    isLoginValue ? <Stack.Screen
+                    userInfo ? <Stack.Screen
                         name="Home"
                         component={BottomNavigator}
                         options={{ headerShown: false }}

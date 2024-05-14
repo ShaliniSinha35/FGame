@@ -6,13 +6,18 @@ import RegisterScreen from './Screens/RegisterScreen';
 import LoginScreen from './Screens/LoginScreen';
 import { AuthProvider } from './AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SignInWithGoogle from './Screens/SignInWithGoogle';
+import { Provider } from 'react-redux';
+
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from '././redux/store';
 export default function App() {
+  // AsyncStorage.clear()
   
   return (
     <View style={styles.container}>
 
-
+<Provider store={store}>
+        <PersistGate  persistor={persistor}>
       <AuthProvider>    
           <AppNavigator></AppNavigator>
       </AuthProvider>
@@ -24,7 +29,8 @@ export default function App() {
         barStyle={"dark-content"}
         translucent={false}
       />
-
+</PersistGate>
+</Provider>
    
     
     

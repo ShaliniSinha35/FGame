@@ -20,11 +20,16 @@ import {
   import { Fontisto,Entypo } from '@expo/vector-icons';
   import { useAuth } from "../AuthContext";
   import AsyncStorage from "@react-native-async-storage/async-storage";
-import SignInWithGoogle from "./SignInWithGoogle";
+import { useDispatch } from 'react-redux';
+import { setUser } from "../redux/actions/userActions";
+import axios from "axios";
+
  const height = Dimensions.get("screen").height;
  const width = Dimensions.get('screen').width;
    
   const LoginScreen = ({navigation}) => {
+
+    const dispatch = useDispatch()
    
     const [hidePass, setHidePass] = useState(true);
     const [mobile,setMobile] = useState("");
@@ -37,7 +42,8 @@ import SignInWithGoogle from "./SignInWithGoogle";
     const [error, setErr] = useState("");
     const [isFormValid, setIsFormValid] = useState(false);
     const [user, setUser] = useState("");
-    const [flag,setFlag]=useState(false)
+    const [flag,setFlag]=useState(false);
+    const [email,setEmail] = useState("")
   
   
     useEffect(() => {
@@ -46,33 +52,10 @@ import SignInWithGoogle from "./SignInWithGoogle";
   
     const validateForm = async() => {
       let errors = {};
-      try {
-        const value = await AsyncStorage.getItem('user')
-        if(value !== null) {
-        
-          const data= JSON.parse(value)
-          console.log("data",data)
-          if(data.mobile !== mobile) {
-            errors.mobile = "Incorrect mobile number";
-          }
-          else if(mobile == '') {
-            errors.mobile = "Enter mobile number";
-          }         
- if(data.password !== password) {
-            errors.password = "Incorrect password";
-          }
-          else  if(password == '') {
-            errors.password = "Enter password";
-          }  
+ 
 
-          setErr(errors)
-      
-
-        }
-        else{
-          console.log("no value")
-          if(mobile == '') {
-            errors.mobile = "Enter mobile number";
+          if(email == '') {
+            errors.email = "Enter email";
           }         
 
        if(password == '') {
@@ -80,25 +63,64 @@ import SignInWithGoogle from "./SignInWithGoogle";
           }  
         
 
-          if(mobile!='' && password!='')
-            errors.message= 'You have entered wrong credentials!'
+
+         setErr(errors)
+
+      
+         setIsFormValid(Object.keys(errors).length === 0);
          
         }
-    
-      } catch(e) {
-        console.log("38 error",e)
+
+        // https://fiedex-backend.onrender.com/
+
+    const verifyUser = async()=>{
+      let errors={}
+ 
+      const res = await axios.get("https://fiedex-backend.onrender.com/verify",{
+        params:{
+          email: email,
+          password: password
+        }}).then(response => {
+        console.log("131",response.data);
+        if(response.data){
+          dispatch({ type: 'SET_USER_INFO', payload: response.data  });
+   login()
+        }
+   
+     
+   
+
+      })
+      .catch(error => {
+        console.error(error);
+        if (error.response && error.response.status === 404) {
+     
+          errors.message= 'You have entered wrong credentials!'
+        } 
+        errors.message= 'You have entered wrong credentials!'
+  
+   
        
-      }
+      });
+
+
       setErr(errors)
-      setIsFormValid(Object.keys(errors).length === 0);
-    };
+  
+   
+    
+
+    }
   
     const handleSubmit =async () => {
+
+      console.log(isFormValid,"formvalid")
     
       if (isFormValid) {
+        await verifyUser()
            
-           login()
+         
       } else {
+
           setFlag(true)
       
       }
@@ -122,7 +144,7 @@ import SignInWithGoogle from "./SignInWithGoogle";
 
 <View style={{width:width,alignItems:"center"}}>
 
-<View style={{marginTop:20 }}>
+{/* <View style={{marginTop:20 }}>
                 <View style={styles.inputBoxCont}>
                 <Ionicons name="call"    
                    size={24}
@@ -143,8 +165,32 @@ import SignInWithGoogle from "./SignInWithGoogle";
                 />
               </View>
               {error.mobile && flag && <Text style={{color:"red"}}>{error.mobile}</Text>}
- </View>
+ </View> */}
           
+
+ <View style={{marginTop:20 }}>
+                <View style={styles.inputBoxCont}>
+                <MaterialIcons
+                  style={{ marginLeft: 8 }}
+                  name="email"
+                  size={24}
+                  color="black"
+                />
+  
+                <TextInput
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                  style={{
+                    color: "black",
+                    marginVertical: 10,
+                    width: 300,
+                    fontSize: password ? 16 : 16,
+                  }}
+                  placeholder="Enter your email"
+                />
+              </View>
+              {error.email && flag && <Text style={{color:"red"}}>{error.email}</Text>}
+            </View>
                   
               <View>
               <View style={styles.inputBoxCont}>
@@ -214,7 +260,7 @@ import SignInWithGoogle from "./SignInWithGoogle";
             </TouchableOpacity>
 </View>
 
-<SignInWithGoogle></SignInWithGoogle>
+{/* <SignInWithGoogle></SignInWithGoogle> */}
 
           </KeyboardAvoidingView>
           </ScrollView>

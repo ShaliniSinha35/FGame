@@ -24,8 +24,6 @@ const Home = ({navigation}) => {
   return (
     
     <SafeAreaView
- 
-   
     style={{
       paddinTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       flex: 1,

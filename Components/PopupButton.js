@@ -39,6 +39,8 @@ const PopupButton = () => {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: 20,
+            borderWidth:2,
+            borderColor:"#fff"
           }}
         >
           <Text style={{ color: "#fff", fontSize: 18 }}>
