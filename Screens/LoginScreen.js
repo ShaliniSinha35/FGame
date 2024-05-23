@@ -48,7 +48,7 @@ import axios from "axios";
   
     useEffect(() => {
       validateForm();
-    }, [ password, mobile]);
+    }, [ password, email]);
   
     const validateForm = async() => {
       let errors = {};

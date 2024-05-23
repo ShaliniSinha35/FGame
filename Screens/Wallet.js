@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React from 'react'
-import { AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, FontAwesome5,Entypo } from '@expo/vector-icons';
 
 const Wallet = () => {
 
@@ -18,6 +18,9 @@ const Wallet = () => {
             <Image source={require("../assets/coin.png")} style={{ height: 40, width: 45, marginTop: 5 }}></Image>
 
             <Text allowFontScaling={false}style={{ color: "#fff", fontSize: 25, marginTop: 5 }}>10,000</Text>
+            <View style={{ height: 40, width: 40, borderRadius: 30, backgroundColor: "#f01c8b", borderColor: "black", borderWidth: 2, alignItems: "center", justifyContent: "center", marginLeft: 5 }}>
+      <Entypo name="wallet" size={24} color="#fff" />
+    </View>
             {/* <TouchableOpacity style={{ backgroundColor: "#f01c8b", width: 120, alignItems: "center", borderRadius: 20, justifyContent: "center", marginLeft: 10, borderWidth: 1, borderColor: "#fff",padding:10 }}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 18 }}>Exchange <AntDesign name="doubleright" size={12} color="#fff" /></Text></TouchableOpacity> */}
 
 

@@ -4,7 +4,7 @@ import { FontAwesome6,AntDesign,FontAwesome } from '@expo/vector-icons';
 const width= Dimensions.get('screen').width;
 const height= Dimensions.get('screen').height
 
-const Section10 = () => {
+const Section10 = ({navigation}) => {
     // ,backgroundColor:"#ffc2e2"
   return (
    <ImageBackground source={require("../assets/bg10.png")} style={{width:width,marginTop:0,resizemode:"contain",borderRadius:30,justifyContent:"center",padding:10,paddingBottom:25,opacity:1,height:height * 0.3}} imageStyle={{borderRadius:0}}>

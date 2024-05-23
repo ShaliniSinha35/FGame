@@ -1,9 +1,8 @@
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground,Image,BackHandler, Alert } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground,Image,BackHandler, Alert, Dimensions } from "react-native";
+import { AntDesign,Entypo } from '@expo/vector-icons';
 import React, {useState,useEffect} from "react";
 import { useFocusEffect } from '@react-navigation/native'
 const Result = ({ navigation, route }) => {
-
 
 
   const { score } = route.params;
@@ -36,20 +35,25 @@ const Result = ({ navigation, route }) => {
 
 
         <View style={styles.textWrapper}>
-          <Image source={require("../assets/coin.png")} style={{width:40,height:40}}></Image>
+          <Image source={require("../assets/coin.png")} style={{width:25,height:25}}></Image>
           <Text style={styles.score}>{score}</Text>
+          <Entypo name="wallet" size={24} color="#fff" />
+{/* 
+          <View style={{ height: 40, width: 40, borderRadius: 30, backgroundColor: "#f01c8b", borderColor: "black", borderWidth: 2, alignItems: "center", justifyContent: "center", marginLeft: 5 }}>
+    
+    </View> */}
 
 
         </View>
         {/* Retry Quiz button */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             navigation.navigate("Home");
           }}
           style={styles.btnReset}
         >
           <Text style={[styles.btnText,{fontWeight:500}]}>Play Again  <AntDesign name="doubleright" size={10} color="#fff" /></Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           onPress={() => {
@@ -77,8 +81,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 10,
     alignItems: "center",
-    borderWidth:1,
-    borderColor:"#f01c8b"
+    borderWidth:5,
+    borderColor:"#f01c8b",
+    elevation:5
   
   },
   textWrapper: {
@@ -91,6 +96,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "#fff",
     fontWeight: "bold",
+    marginRight:8,
+    marginLeft:5
   },
   btnReset: {
     backgroundColor: "#f01c8b",

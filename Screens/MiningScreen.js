@@ -47,11 +47,21 @@ const MiningScreen = () => {
   }, [tapCount]);
   
   
-  if(tapCount !=0){
-    setInterval(() => {
-      setProgress(progress + 0.1)
-   }, 120000);
-  }
+  
+
+
+
+  useEffect(() => {
+    let intervalId;
+    if (isAnimating) {
+      intervalId = setInterval(() => {
+        setProgress(prevProgress => prevProgress + 0.1);
+      }, 120000);
+    }
+    return () => clearInterval(intervalId);
+  }, [isAnimating]);
+
+
 
 
   useEffect(() => {
@@ -64,7 +74,9 @@ const MiningScreen = () => {
 
     <ImageBackground source={require("../assets/bg9.png")} style={{ height: height, backgroundColor: "#fff" }}>
 
-      <View style={{ alignItems: "center", paddingTop: 5 }}>
+
+     <ScrollView>
+       <View style={{ alignItems: "center", paddingTop: 5 }}>
 
 {/* header */}
 <View style={{ width: width, backgroundColor: "#3c1642", flexDirection: "row", alignItems: "center", justifyContent: "space-around", padding: 5, borderTopLeftRadius: 0, borderBottomWidth:2,borderColor:"#fff" }}>
@@ -191,7 +203,10 @@ const MiningScreen = () => {
     <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 28 }}>Tap</Text>
   </TouchableOpacity>
 </View>
-</View>
+      </View>
+
+     </ScrollView>
+    
  
      
     </ImageBackground>
