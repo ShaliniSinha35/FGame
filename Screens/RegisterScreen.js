@@ -48,6 +48,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const [countryCode, setCountryCode] = useState('IN'); // Default country code
 
+
   const handleCountryCodeChange = (country) => {
     setCountryCode(country.cca2);
   };
@@ -62,6 +63,7 @@ const RegisterScreen = ({ navigation }) => {
   // })
 
 
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     validateForm();
@@ -70,7 +72,6 @@ const RegisterScreen = ({ navigation }) => {
   const validateForm = () => {
     let errors = {};
 
-    // Validate name field
     if (!mobile) {
       errors.mobile = "Mobile Number is required.";
     } else if (mobile.length !== 10) {
@@ -78,32 +79,26 @@ const RegisterScreen = ({ navigation }) => {
     }
 
     if (!name) {
-      errors.name = "Name is Required"
+      errors.name = "Name is required.";
     }
 
-
-
-    // Validate email field
     if (!email) {
       errors.email = "Email is required.";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       errors.email = "Email is invalid.";
     }
 
-    // Validate password field
     if (!password) {
       errors.password = "Password is required.";
-    }
-    else if (
+    } else if (
       !/[!@#$%^&*(),.?":{}|<>]/.test(password) ||
       !/[A-Z]/.test(password) ||
       !/[0-9]/.test(password) ||
       password.length < 8
     ) {
-      errors.password =
-        "Password must contain at least one special character, one uppercase letter, one number, and length should be at least 8.";
+      errors.password = "Password must contain at least one special character, one uppercase letter, one number, and be at least 8 characters long.";
     }
-    // Validate confirm password field
+
     if (!cPass) {
       errors.cPass = "Confirm Password is required.";
     } else if (cPass !== password) {
@@ -111,59 +106,62 @@ const RegisterScreen = ({ navigation }) => {
     }
 
     if (!check1) {
-      console.log(check1)
-      errors.terms = "Please accept the terms and conditions"
+      errors.terms = "Please accept the terms and conditions.";
     }
-    // Set the errors and update form validity
-    setErr(errors);
+
+    setErrors(errors);
     setIsFormValid(Object.keys(errors).length === 0);
   };
 
   const handleSubmit = async () => {
-
     if (isFormValid) {
-
-
-
-
       const userData = {
-        name: name,
-        email: email,
-        mobile: mobile,
-        password: password,
-        referral: referral,
-        countryCode:countryCode
-      }
-      console.log("userData", userData, email)
-
-
+        name,
+        mobile_number: mobile,
+        country_code: countryCode,
+        email,
+        password,
+        refer_code: referral,
+      };
+  
       try {
-        const res = await axios.post("https://fiedex-backend.onrender.com/register", {
-          name: userData.name,
-          mobile_number: userData.mobile,
-          country_code: userData.countryCode,
-          email: userData.email,
-          password: userData.password,
-          refer_code: userData.referral
-        });
-      
+        const res = await axios.post("https://fiedex.com/fiedex/register", userData);
+        console.log(`Response Status: ${res.status}`);
+        console.log(`Response Status Text: ${res.statusText}`);
         console.log(res.data);
         navigation.navigate("Login");
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          Alert.alert('Sign-up Failed', 'Email already exists!');
+        // Enhanced error logging
+        if (error.response) {
+          // The request was made and the server responded with a status code that falls out of the range of 2xx
+          console.log(`Error Response Status: ${error.response.status}`);
+          console.log(`Error Response Status Text: ${error.response.statusText}`);
+          console.log(`Error Response Data: ${JSON.stringify(error.response.data)}`);
+          console.log(`Error Response Headers: ${JSON.stringify(error.response.headers)}`);
+          
+          if (error.response.status === 400) {
+            Alert.alert('Sign-up Failed', 'Email already exists!');
+          } else {
+            Alert.alert('Sign-up Failed', 'Please try again.');
+          }
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log('Error Request: ', error.request);
+          Alert.alert('Sign-up Failed', 'No response from server.');
         } else {
-          console.error(error);
-          Alert.alert('SIGN UP Failed', 'Please try again');
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error Message: ', error.message);
+          Alert.alert('Sign-up Failed', 'An unexpected error occurred.');
         }
       }
-      
-
     } else {
-      setFlag(true)
-      // alert("Registration form has errors. Please correct them.");
+      setFlag(true);
     }
   };
+  
+  
+  
+
 
   return (
     <View style={{ backgroundColor: "white" }}>

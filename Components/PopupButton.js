@@ -1,10 +1,36 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Animated, Easing } from 'react-native';
+import React, { useRef, useEffect,useState } from 'react';
+import { View, Text, TouchableOpacity, Animated, Easing, Share, Linking,Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; // Make sure to import AntDesign from the correct package
 
 const PopupButton = () => {
-  const animation = useRef(new Animated.Value(1)).current; // Initial scale value
+  const animation = useRef(new Animated.Value(1)).current; 
+  const [referralLink, setReferralLink] = useState('https://expo.dev/artifacts/eas/hQ7QeYzY9jMDot6HFS6Hnx.apk');
 
+  const shareReferralLink = async (platform) => {
+    try {
+      const message = `Check this out: ${referralLink}`;
+      let url;
+
+      if (platform === 'whatsapp') {
+        url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+      } else if (platform === 'facebook') {
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+      }
+
+      if (url) {
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+          await Linking.openURL(url);
+        } else {
+          Alert.alert('Error', `Cannot open URL: ${url}. Make sure the app is installed.`);
+        }
+      } else {
+        await Share.share({ message });
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Could not share referral link');
+    }
+  };
   const startAnimation = () => {
     Animated.loop(
       Animated.sequence([
@@ -42,6 +68,7 @@ const PopupButton = () => {
             borderWidth:2,
             borderColor:"#fff"
           }}
+          onPress={() => shareReferralLink('generic')}
         >
           <Text style={{ color: "#fff", fontSize: 18 }}>
             Invite Partners <AntDesign name="doubleright" size={18} color="#fff" />

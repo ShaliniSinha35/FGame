@@ -1,11 +1,43 @@
 import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import { AntDesign, FontAwesome, FontAwesome5,Entypo } from '@expo/vector-icons';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useAuth } from '../AuthContext';
 
 const Wallet = () => {
 
   const height = Dimensions.get('screen').height
   const width = Dimensions.get('screen').width
+
+  const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
+
+  const [wallet,setWallet] = useState(0)
+  const {isWalletUpdated,setIsWalletUpdated}= useAuth()
+
+  
+     const getWalletValue = async()=>{
+      if(userInfo){
+        try{
+          const res= await axios.get("https://fiedex.com/fiedex/wallet",{
+           params:{
+             userId: userInfo.id
+           }
+          })
+          console.log(res,"27")
+          const data= res.data
+          console.log("30",data[0].amount)
+          setWallet(data[0].amount)
+        }
+        catch(err){
+         console.log("32",err)
+        }
+      }
+      
+     }
+     useEffect(()=>{
+      getWalletValue()
+     },[isWalletUpdated])
   return (
     <ScrollView>
     <ImageBackground source={require("../assets/B7.png")} style={{  width: width,height:height }}>
@@ -17,7 +49,7 @@ const Wallet = () => {
           {/* <Image source={require("../assets/wallet.png")} style={{height:30,width:30,resizeMode:"contain"}}></Image> */}
             <Image source={require("../assets/coin.png")} style={{ height: 40, width: 45, marginTop: 5 }}></Image>
 
-            <Text allowFontScaling={false}style={{ color: "#fff", fontSize: 25, marginTop: 5 }}>10,000</Text>
+            <Text allowFontScaling={false}style={{ color: "#fff", fontSize: 25, marginTop: 5 }}>{wallet}.00</Text>
             <View style={{ height: 40, width: 40, borderRadius: 30, backgroundColor: "#f01c8b", borderColor: "black", borderWidth: 2, alignItems: "center", justifyContent: "center", marginLeft: 5 }}>
       <Entypo name="wallet" size={24} color="#fff" />
     </View>

@@ -39,7 +39,7 @@ const Section8 = ({ navigation }) => {
                 <View style={{ borderRadius: 40, padding: 18, width: 350, alignItems: "center", justifyContent: "center", backgroundColor: "#3c1642", borderColor: "#f01c8b", borderWidth: 3,marginTop:20 }}>
 
                     <View style={{flexDirection:"row",justifyContent:"space-between",width:280,alignItems:"center"}}>
-                    <View style={{  flexDirection:"row",alignItems:"center"}}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 16 }}>50,000 </Text> 
+                    <View style={{  flexDirection:"row",alignItems:"center",borderWidth:2,borderColor:"white",borderRadius:20,paddingHorizontal:15,}}><Text allowFontScaling={false} style={{ color: "#fff", fontSize: 16 }}>50,000 </Text> 
                     <Image source={require("../assets/coin.png")} style={{width:30,height:30,resizeMode:"contain"}}></Image>
                     </View>
 

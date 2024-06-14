@@ -123,18 +123,32 @@ const Profile = ({navigation}) => {
 },
 {
   id:2,
+  name:"Privacy Policy",
+  url:"privacy",
+  icon:<FontAwesome5 name="info-circle" size={20} color="#f01c8b" />
+
+},
+{
+  id:3,
+  name:"Terms & Conditions",
+  url:"terms",
+  icon:<FontAwesome5 name="info-circle" size={20} color="#f01c8b" />
+
+},
+{
+  id:2,
   name:"Contact Us",
   url:"Contact",
   icon:<FontAwesome name="send" size={20} color="#f01c8b" />
 
 },
-{
-  id:3,
-  name:"Deregister Account",
-  url:"deregister",
-  icon:<FontAwesome5 name="info-circle" size={20} color="#f01c8b" />
+// {
+//   id:3,
+//   name:"Deregister Account",
+//   url:"deregister",
+//   icon:<FontAwesome5 name="info-circle" size={20} color="#f01c8b" />
 
-},
+// },
 
 
 

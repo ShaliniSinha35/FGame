@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView,Animated } from 'react-native'
+import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView,Animated, Share,Alert, StyleSheet } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 import PopupButton from '../Components/PopupButton';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
@@ -10,14 +10,15 @@ import { useAuth } from '../AuthContext';
 
 const Referral = () => {
 
-  const userInfo = useSelector(state => state.user.userInfo);
-  console.log("userinfo",userInfo)
+  const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
 
 
   const [animatedValue] = useState(new Animated.Value(0));
   const [textWidth, setTextWidth] = useState(0);
   const containerWidth = Dimensions.get('screen').width;
   const textRef = useRef(null);
+  const [referralLink, setReferralLink] = useState('https://expo.dev/artifacts/eas/hQ7QeYzY9jMDot6HFS6Hnx.apk');
+
 
   useEffect(() => {
     startAnimation();
@@ -66,6 +67,34 @@ const Referral = () => {
     },
 
   ]
+
+
+  
+  const shareReferralLink = async (platform) => {
+    try {
+      const message = `Check this out: ${referralLink}`;
+      let url;
+
+      if (platform === 'whatsapp') {
+        url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+      } else if (platform === 'facebook') {
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+      }
+
+      if (url) {
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+          await Linking.openURL(url);
+        } else {
+          Alert.alert('Error', `Cannot open URL: ${url}. Make sure the app is installed.`);
+        }
+      } else {
+        await Share.share({ message });
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Could not share referral link');
+    }
+  };
   return (
     <ScrollView>
       <ImageBackground source={require("../assets/B5.png")} style={{ width: width,paddingBottom:10 }}>
@@ -73,8 +102,8 @@ const Referral = () => {
 
 
       <View style={{ width: width, alignItems: "center", marginTop: 40 }}>
-            <View style={{width:180,backgroundColor:"#fff",height:35,borderRadius:15,opacity:0.8,alignItems:"center",justifyContent:"center"}}>
-                 <Text allowFontScaling={false} style={{color:"#f01c8b"}}>{userInfo.name}'s Team</Text>
+            <View style={{paddingHorizontal:20,backgroundColor:"#fff",height:35,borderRadius:18,opacity:0.8,alignItems:"center",justifyContent:"center",borderWidth:2,borderColor:"#fff"}}>
+              {userInfo!=null && <Text allowFontScaling={false} style={{color:"#f01c8b"}}>{userInfo.name}'s Team</Text> }   
             </View>
            <View style={{ borderWidth: 2, borderColor: "#fff", borderRadius: 20, width: 350, backgroundColor: "#3c1642", elevation: 5, paddingBottom: 20 }}>
             <View style={{ width: 350, alignItems: "center", marginTop: 5 }}>
@@ -244,7 +273,7 @@ const Referral = () => {
 
 
             <View style={{ width: 350, alignItems: "center", marginTop: 50 }}>
-              <TouchableOpacity style={{ backgroundColor: "#f01c8b", width: 120, height: 40, alignItems: "center", justifyContent: "center", borderRadius: 25, borderWidth:2, borderColor:"#fff" }}>
+              <TouchableOpacity       onPress={() => shareReferralLink('generic')}  style={{ backgroundColor: "#f01c8b", width: 120, height: 40, alignItems: "center", justifyContent: "center", borderRadius: 25, borderWidth:2, borderColor:"#fff" }}>
                    <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 18 }}>Invite <AntDesign name="doubleright" size={12} color="#fff" /></Text>
               </TouchableOpacity>
 
@@ -266,13 +295,19 @@ const Referral = () => {
         <View style={{ marginTop: 70, width: width, alignItems: "center" }}>
              <Text allowFontScaling={false} style={{ color: "#fff" }}>Share with your friends :</Text>
           <View style={{ width: width, justifyContent: "center", flexDirection: "row", marginTop: 10 }}>
-
-            <SocialIcon
-              type='facebook'
-            />
-            <SocialIcon
-              type='whatsapp'
-            />
+          {/* <SocialIcon
+          type='facebook'
+          onPress={() => shareReferralLink('facebook')}
+        />
+        <SocialIcon
+          type='whatsapp'
+          onPress={() => shareReferralLink('whatsapp')}
+        /> */}
+        <SocialIcon
+          type='share-alt'
+          onPress={() => shareReferralLink('generic')}
+          style={styles.iconStyle}
+        />
           </View>
         </View>
 
@@ -283,5 +318,14 @@ const Referral = () => {
  
   )
 }
+const styles = StyleSheet.create({
+ 
+  iconStyle: {
+    backgroundColor: '#db4437', // Optional: to match Google's red color
+  },
+  iconStyles: {
+    backgroundColor: 'blue', // Optional: to match Google's red color
+  },
+});
 
 export default Referral

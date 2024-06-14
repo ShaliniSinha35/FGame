@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [isLoginValue, setIsLoginValue] = useState(false);
   const [isLogoutValue, setIsLogoutValue] = useState(false);
 
+  const [isWalletUpdated,setIsWalletUpdated]= useState(false)
+
 
 
    const [mobile,setMobile] = useState(null)
@@ -16,6 +18,9 @@ export const AuthProvider = ({ children }) => {
    const [password,setPassword] = useState(null)
    const [country,setCountry] = useState(null)
    const [user,setUser]= useState(null)
+
+
+   const [key, setKey]= useState(false)
 
 
 
@@ -91,7 +96,7 @@ export const AuthProvider = ({ children }) => {
   
 
   return (
-    <AuthContext.Provider value={{ isLoginValue, login, logout,isAlreadyLogin,register,user,mobile,isLogoutValue }}>
+    <AuthContext.Provider value={{ isLoginValue, login, logout,isAlreadyLogin,register,user,mobile,isLogoutValue,key,setKey,isWalletUpdated,setIsWalletUpdated }}>
       {children}
     </AuthContext.Provider>
   );

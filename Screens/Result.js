@@ -2,10 +2,54 @@ import { View, Text, TouchableOpacity, StyleSheet, ImageBackground,Image,BackHan
 import { AntDesign,Entypo } from '@expo/vector-icons';
 import React, {useState,useEffect} from "react";
 import { useFocusEffect } from '@react-navigation/native'
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useAuth } from "../AuthContext";
+import { ScreenContext } from "react-native-screens";
 const Result = ({ navigation, route }) => {
 
 
   const { score } = route.params;
+  console.log(score,"12")
+
+
+  const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
+  const {isWalletUpdated,setIsWalletUpdated}= useAuth()
+
+
+
+  
+ 
+   
+
+
+
+
+  const updateWalletValue = async () => {
+    if (userInfo && userInfo.id && score !== undefined) {
+      console.log("Updating wallet for userId:", userInfo.id, "with amount:", score * 10);
+      try {
+        const res = await axios.get("https://fiedex.com/fiedex/updateWallet", {
+          params: {
+            userId: userInfo.id,
+            amount: score * 10
+          }
+        });
+        console.log("Wallet updated:", res.data);
+        setIsWalletUpdated(true);
+      } catch (err) {
+        console.error("Error updating wallet:", err.response ? err.response.data : err.message);
+      }
+    } else {
+      console.error("userInfo or score is not properly defined");
+    }
+  };
+  
+  useEffect(() => {
+    updateWalletValue();
+  }, [route.params]);
+  
+
 
 
   useFocusEffect(
@@ -36,7 +80,7 @@ const Result = ({ navigation, route }) => {
 
         <View style={styles.textWrapper}>
           <Image source={require("../assets/coin.png")} style={{width:25,height:25}}></Image>
-          <Text style={styles.score}>{score}</Text>
+          <Text style={styles.score}>{score * 10}</Text>
           <Entypo name="wallet" size={24} color="#fff" />
 {/* 
           <View style={{ height: 40, width: 40, borderRadius: 30, backgroundColor: "#f01c8b", borderColor: "black", borderWidth: 2, alignItems: "center", justifyContent: "center", marginLeft: 5 }}>

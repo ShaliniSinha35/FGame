@@ -1,11 +1,7 @@
 
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import StackNavigator from './navigation/stacknavigator';
 import AppNavigator from './navigation/AppNavigator';
-import RegisterScreen from './Screens/RegisterScreen';
-import LoginScreen from './Screens/LoginScreen';
 import { AuthProvider } from './AuthContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Provider } from 'react-redux';
 
 import { PersistGate } from 'redux-persist/integration/react';

@@ -19,12 +19,14 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-
+import axios from "axios";
 const height = Dimensions.get("screen").height;
 const width = Dimensions.get('screen').width;
 
 const Quiz = ({ navigation }) => {
-  const allQuestions = data;
+  // const allQuestions = data;
+
+    const [allQuestions,setAllQuestions]= useState([])
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [progress, setProgress] = useState(new Animated.Value(1));
@@ -38,6 +40,35 @@ const Quiz = ({ navigation }) => {
   const [nextTimerKey, setNextTimerKey] = useState(0);
   const timerRef = useRef(null);
   const [count,setCount]= useState(10)
+
+
+
+  const getAllQuestions = async () => {
+    try {
+      const res = await axios.get("https://fiedex.com/fiedex/quizQuestions");
+      const data = res.data;
+      let newArr = [];
+      console.log("51", data);
+
+      for (let i = 0; i < data.length; i++) {
+        newArr.push({
+          question: data[i].question,
+          options: [data[i].option_1, data[i].option_2, data[i].option_3, data[i].option_4],
+          correct_option: data[i].answer
+        });
+      }
+
+      setAllQuestions(newArr);
+      console.log("newArr", newArr);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getAllQuestions();
+  }, []);
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -104,8 +135,13 @@ const Quiz = ({ navigation }) => {
   
   // Function to show correct answer when time is up
   const showCorrectAnswer = async () => {
+
+  
     let correctOption = allQuestions[currentQuestionIndex]["correct_option"];
+    console.log("139",correctOption)
+    // Alert.alert(correctOption)
     setCorrectOption(correctOption);
+    
     setIsOptionsDisabled(true);
     await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds
     handleNext();
@@ -126,13 +162,16 @@ const Quiz = ({ navigation }) => {
   };
 
   const validateAnswer = (selectedOption) => {
+
+  
     if (!isOptionsDisabled) {
       let correct_option = allQuestions[currentQuestionIndex]["correct_option"];
-      setCurrentOptionSelected(selectedOption);
+      setCurrentOptionSelected(selectedOption + 1);
       setCorrectOption(correct_option);
       setIsOptionsDisabled(true);
       setStopTimer(true);
-      if (selectedOption == correct_option) {
+      console.log("168",selectedOption + 1, correct_option)
+      if (selectedOption + 1 == correct_option) {
         setScore(score + 1);
       } else {
         Vibration.vibrate(500);
@@ -207,7 +246,8 @@ const Quiz = ({ navigation }) => {
     return (
       <ScrollView>
         <View style={{ marginTop: 40 }}>
-          {allQuestions[currentQuestionIndex]?.options.map((option, index) => (
+          {
+          allQuestions[currentQuestionIndex]?.options.map((option, index) => (
             <Animated.View
               key={index}
               style={{
@@ -223,17 +263,17 @@ const Quiz = ({ navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => validateAnswer(option)}
+                onPress={() => validateAnswer(index)}
                 key={index}
                 style={[
                   { ...styles.optionsText },
                   {
                     padding: 20,
                     borderRadius: 30,
-                    backgroundColor:  option == correctOption ?"#058c42" : isOptionsDisabled
-                      ? option == correctOption
+                    backgroundColor:  index + 1 == correctOption ?"#058c42" : isOptionsDisabled
+                      ? index + 1 == correctOption
                         ? "#058c42"
-                        : option == currentOptionSelected
+                        : index + 1 == currentOptionSelected
                         ? "#780116"
                         : "#cfcdcc"
                       : "#3c1642",
@@ -260,7 +300,8 @@ const Quiz = ({ navigation }) => {
                 }
               </TouchableOpacity>
             </Animated.View>
-          ))}
+          ))
+          }
         </View>
       </ScrollView>
     );
@@ -268,7 +309,8 @@ const Quiz = ({ navigation }) => {
 
   return (
     <ImageBackground source={require("../assets/mjk.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
-      <ScrollView>
+      {allQuestions.length!=0 &&
+        <ScrollView>
         <View style={{ width: width, alignItems: "center", marginTop: 20 }}>
           <CountdownCircleTimer
             key={timerKey} // Add key to reset the timer
@@ -346,6 +388,9 @@ const Quiz = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
+      
+      }
+    
     </ImageBackground>
   );
 };

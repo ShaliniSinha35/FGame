@@ -1,33 +1,19 @@
-import {
-    View,
-    Text,
-    Button,
-    Pressable,
-    FlatList,
-    StyleSheet,
-    ScrollView,
-    Image
-} from "react-native";
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import {StyleSheet,Image} from "react-native";
+import React, { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Entypo } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { FontAwesome5 } from '@expo/vector-icons';
 import Home from "../Screens/Home";
 import Profile from "../Screens/Profile";
 import Quiz from "../Screens/Quiz";
 import Referral from "../Screens/Referral";
 import Wallet from "../Screens/Wallet";
-import Login from "../Screens/Login";
 import Result from "../Screens/Result";
 import Terms from "../Screens/Terms";
 import Privacy from "../Screens/Privacy";
@@ -36,14 +22,13 @@ import QuizScreen from "../Screens/QuizScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import RegisterScreen from "../Screens/RegisterScreen";
 import { useAuth } from "../AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import MiningScreen from "../Screens/MiningScreen";
 import RewardScreen from "../Screens/RewardScreen";
-import { HeaderBackButton } from '@react-navigation/stack';
 import About from "../Screens/About";
 import Contact from "../Screens/Contact";
 import Deregister from "../Screens/Deregister";
 import { useSelector, useDispatch } from 'react-redux';
+import MiningKey from "../Screens/MiningKey";
 
 
 const Stack = createStackNavigator();
@@ -56,21 +41,17 @@ const AppNavigator = () => {
 
 
     console.log("isLoinValue", isLoginValue, isLogoutValue)
-    const userInfo = useSelector(state => state.user.userInfo);
+    const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
     console.log("userinfo",userInfo)
-    useEffect(()=>{
-       
-    },[userInfo])
 
-    // useEffect(() => {
- 
-    // }, [isLoginValue]);
+    useEffect(() => {
+
+    }, [userInfo])
+
+  
 
 
     const dispatch = useDispatch();
-
-
-
 
     const handleLogout = async (navigation) => {
         dispatch({ type: 'CLEAR_USER_INFO' });
@@ -116,13 +97,13 @@ const AppNavigator = () => {
         {
             id: 5,
             name: "Terms & Conditions",
-            url: "Terms",
+            url: "terms",
             icon: <Foundation name="clipboard-pencil" size={24} color="white" />,
         },
         {
             id: 6,
             name: "Privacy Policy",
-            url: "Privacy",
+            url: "privacy",
             icon: <MaterialIcons name="security" size={24} color="white" />,
         },
         {
@@ -321,11 +302,11 @@ const AppNavigator = () => {
 
                 } */}
 
-             <Stack.Screen
-                        name="Home"
-                        component={Home}
-                        options={{ headerShown: false }}
-                    />
+                <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    options={{ headerShown: false }}
+                />
 
                 <Stack.Screen
                     name="ProfileScreen"
@@ -369,12 +350,12 @@ const AppNavigator = () => {
 
 
                 <Stack.Screen
-                    name="Terms"
+                    name="terms"
                     component={Terms}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name="Privacy"
+                    name="privacy"
                     component={Privacy}
                     options={{ headerShown: false }}
                 />
@@ -390,6 +371,9 @@ const AppNavigator = () => {
                     component={RegisterScreen}
                     options={{ headerShown: false }}
                 />
+
+
+
             </Stack.Navigator>
         );
     }
@@ -419,12 +403,12 @@ const AppNavigator = () => {
 
                 }
 
-<Stack.Screen
+                <Stack.Screen
                     name="RegisterScreen"
                     component={RegisterScreen}
                     options={{ headerShown: false }}
                 />
-                
+
                 <Stack.Screen
                     name="ProfileScreen"
                     component={Profile}
@@ -467,12 +451,12 @@ const AppNavigator = () => {
 
 
                 <Stack.Screen
-                    name="Terms"
+                    name="terms"
                     component={Terms}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name="Privacy"
+                    name="privacy"
                     component={Privacy}
                     options={{ headerShown: false }}
                 />
@@ -488,12 +472,17 @@ const AppNavigator = () => {
                     component={Quiz}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="MiningKey"
+                    component={MiningKey}
+                    options={{ headerShown: false, tabBarVisible: false, tabBarStyle: { display: 'none' }, tabBarVisible: false }}
 
+                />
 
 
             </Stack.Navigator>
-   
-  
+
+
 
         </NavigationContainer>
 

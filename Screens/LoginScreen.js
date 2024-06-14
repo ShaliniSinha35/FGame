@@ -71,20 +71,22 @@ import axios from "axios";
          
         }
 
-        // https://fiedex-backend.onrender.com/
+        // https://fiedex.com/fiedex/
 
     const verifyUser = async()=>{
       let errors={}
  
-      const res = await axios.get("https://fiedex-backend.onrender.com/verify",{
+      const res = await axios.get("https://fiedex.com/fiedex/verify",{
         params:{
           email: email,
           password: password
         }}).then(response => {
         console.log("131",response.data);
         if(response.data){
+
+    
           dispatch({ type: 'SET_USER_INFO', payload: response.data  });
-   login()
+          login()
         }
    
      

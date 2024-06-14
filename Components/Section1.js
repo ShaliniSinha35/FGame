@@ -5,6 +5,8 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { useAuth } from '../AuthContext';
 import MarqueeText from 'react-native-marquee';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 const Section1 = ({ navigation }) => {
   const { mobile } = useAuth()
 
@@ -12,6 +14,36 @@ const Section1 = ({ navigation }) => {
   const [textWidth, setTextWidth] = useState(0);
   const containerWidth = Dimensions.get('screen').width;
   const textRef = useRef(null);
+  const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
+  console.log("18",userInfo)
+
+const [wallet,setWallet] = useState(0)
+const {isWalletUpdated,setIsWalletUpdated}= useAuth()
+
+
+
+   const getWalletValue = async()=>{
+    console.log("getWalletValue")
+    if(userInfo){
+      try{
+        const res= await axios.get("https://fiedex.com/fiedex/wallet",{
+         params:{
+           userId: userInfo.id
+         }
+        })
+        const data= res.data
+        console.log("30 section1",data[0].amount)
+        setWallet(data[0].amount)
+      }
+      catch(err){
+       console.log(err)
+      }
+    }
+    
+   }
+   useEffect(()=>{
+    getWalletValue()
+   },[isWalletUpdated])
 
   useEffect(() => {
     startAnimation();
@@ -74,7 +106,7 @@ const Section1 = ({ navigation }) => {
             <View style={{ width: 120, height: 40, backgroundColor: "#fff", borderRadius: 20, marginLeft: 10, flexDirection: "row", alignItems: "center", justifyContent: "space-between", opacity: 0.9 }}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image source={require("../assets/coin.png")} style={{ width: 40, height: 40, resizeMode: "contain" }}></Image>
-                <Text  allowFontScaling={false} style={{ color: "#f01c8b", fontWeight: 700 }}>5.00</Text>
+                <Text  allowFontScaling={false} style={{ color: "#f01c8b", fontWeight: 700 }}>{wallet}.00  </Text>
               </View>
 
               <View style={{ height: 40, width: 40, borderRadius: 30, backgroundColor: "#f01c8b", borderColor: "black", borderWidth: 2, alignItems: "center", justifyContent: "center" }}>
