@@ -20,8 +20,8 @@ import { View, StyleSheet, Text } from "react-native";
       <Text
       allowFontScaling = {false}
         style={{
-          color: "#333",
-          fontSize: 18,
+          color: "white",
+          fontSize: 16,
           textAlign: "center",
         }}
       >

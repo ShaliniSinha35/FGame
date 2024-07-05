@@ -20,7 +20,7 @@ const Profile = ({navigation}) => {
   
   
 
-  const { isLoginValue , isAlreadyLogin,logout,isLogoutValue} = useAuth();
+  const { login} = useAuth();
 
   const {mobile} = useAuth()
 
@@ -157,6 +157,8 @@ const Profile = ({navigation}) => {
 
   const handleLogout=async()=>{
     dispatch({ type: 'CLEAR_USER_INFO' });
+    login()
+    // navigation.navigate("Login");
     // logout()
 
 }

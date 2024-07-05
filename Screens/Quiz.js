@@ -58,7 +58,9 @@ const Quiz = ({ navigation }) => {
         });
       }
 
+
       setAllQuestions(newArr);
+      
       console.log("newArr", newArr);
     } catch (err) {
       console.log(err.message);
@@ -124,27 +126,24 @@ const Quiz = ({ navigation }) => {
     if (!stopTimer) {
       timerRef.current = setTimeout(async () => {
         await showCorrectAnswer();
-      }, 60000); // 60 seconds
+      }, 60000); // 10 seconds
     } else {
       clearTimeout(timerRef.current);
     }
     return () => {
       clearTimeout(timerRef.current);
     };
-  }, [currentQuestionIndex, stopTimer]);
-  
+  }, [currentQuestionIndex, stopTimer, allQuestions]);
+
   // Function to show correct answer when time is up
   const showCorrectAnswer = async () => {
-
-  
-    let correctOption = allQuestions[currentQuestionIndex]["correct_option"];
-    console.log("139",correctOption)
-    // Alert.alert(correctOption)
-    setCorrectOption(correctOption);
-    
-    setIsOptionsDisabled(true);
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds
-    handleNext();
+    if (allQuestions.length > 0) {
+      let correctOption = allQuestions[currentQuestionIndex]["correct_option"];
+      setCorrectOption(correctOption);
+      setIsOptionsDisabled(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 seconds
+      handleNext();
+    }
   };
   
 
@@ -171,8 +170,10 @@ const Quiz = ({ navigation }) => {
       setIsOptionsDisabled(true);
       setStopTimer(true);
       console.log("168",selectedOption + 1, correct_option)
+     
       if (selectedOption + 1 == correct_option) {
         setScore(score + 1);
+       
       } else {
         Vibration.vibrate(500);
       }
@@ -222,27 +223,11 @@ const Quiz = ({ navigation }) => {
   };
 
 
-  // useEffect(() => {
-    
-  //     let count = 10;
-  //     const intervalId = setInterval(() => {
-  //       count -= 1;
-  //       setCount(count);
-  //       if (count === 0) {
-  //         clearInterval(intervalId);
-  //         showCorrectAnswer();
-  //       }
-  //     }, 1000);
 
-  //     return () => clearInterval(intervalId);
-  
-
-
-   
-  // },[stopTimer]);
 
 
   const renderOptions = () => {
+
     return (
       <ScrollView>
         <View style={{ marginTop: 40 }}>
@@ -291,9 +276,9 @@ const Quiz = ({ navigation }) => {
                   {index == 0 ? 'A. ' : index == 1 ? 'B. ' : index == 2 ? 'C. ' : index == 3 ? 'D. ' : null} {option}
                 </Text>
                 {isOptionsDisabled
-                  ? option == correctOption
+                  ? index + 1 == correctOption
                     ? <Ionicons name="happy" size={24} color="black" style={{ marginLeft: 20, color: "#ffb700" }} />
-                    : option == currentOptionSelected
+                    : index + 1 == currentOptionSelected
                       ? <Ionicons name="sad" size={24} color="black" style={{ marginLeft: 20, color: "#ffb700" }} />
                       : null
                   : null
@@ -305,10 +290,13 @@ const Quiz = ({ navigation }) => {
         </View>
       </ScrollView>
     );
+
   };
 
   return (
-    <ImageBackground source={require("../assets/mjk.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
+    <View style={{height:Dimensions.get("screen").height,backgroundColor:"black"}}>
+
+<ImageBackground source={require("../assets/B5.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
       {allQuestions.length!=0 &&
         <ScrollView>
         <View style={{ width: width, alignItems: "center", marginTop: 20 }}>
@@ -318,27 +306,50 @@ const Quiz = ({ navigation }) => {
             duration={60}
             size={50}
             strokeWidth={4}
-            colors={['#3c1642', '#F7B801', '#A30000', '#A30000']}
+            colors={['#f01c8b', '#F7B801', '#A30000', '#A30000']}
             colorsTime={[40, 30, 20, 0]}
-            onComplete={() => {
-              // Handle timer completion if necessary
+            onComplete={async () => {
+              await showCorrectAnswer();
+              return [false, 0];
             }}
           >
-            {({ remainingTime }) => <Text>{remainingTime}</Text>}
+            {({ remainingTime }) => <Text style={{color:"#fff"}}>{remainingTime}</Text>}
           </CountdownCircleTimer>
         </View>
         <View style={styles.container}>
-          <View style={styles.subContainer}>
+          <ImageBackground source={require("../assets/quizbg.jpg")} imageStyle={{borderRadius:40,borderWidth:2,borderColor:"#fff"}} style={styles.subContainer}>
+
             <ProgressBar progress={progress} index={currentQuestionIndex} />
             <Questions index={currentQuestionIndex} question={allQuestions[currentQuestionIndex]?.question} />
-          </View>
+          </ImageBackground>
+               {/* Question */}
+
+
+
+<Text
+      allowFontScaling = {false}
+        style={{
+          color: "#fff",
+          fontSize: 18,
+          textAlign: "center",
+          fontWeight:"bold",
+          marginTop:20
+        }}
+      >
+       {currentQuestionIndex + 1}. {allQuestions[currentQuestionIndex]?.question}
+      </Text>
+
+ 
+           
           {renderOptions()}
+               </View>
+
           <View style={{ alignItems: "center", marginTop: 20 }}>
            
 
         
 
-<TouchableOpacity
+           <TouchableOpacity
               style={[
                 { ...styles.btnNext },
                 {
@@ -349,49 +360,22 @@ const Quiz = ({ navigation }) => {
               onPress={handleNext}
             >
               <Text allowFontScaling={false} style={styles.btnNextText}>NEXT
-                <AntDesign name="doubleright" size={22} color="#fff" />
+                <AntDesign name="doubleright" size={18} color="#fff" />
               </Text>
             </TouchableOpacity>
 
-            {/* {
-              stopTimer ?       <TouchableOpacity
-              style={[
-                { ...styles.btnNext },
-                {
-                  backgroundColor:  "#ffa6c1",
-                },
-              ]}
-           
-          
-            >
-              <Text allowFontScaling={false} style={[styles.btnNextText,{fontSize:15}]}> Next {count} seconds
-                <AntDesign name="doubleright" size={15} color="#fff" />
-              </Text>
-            </TouchableOpacity>:       <TouchableOpacity
-              style={[
-                { ...styles.btnNext },
-                {
-                  backgroundColor: !currentOptionSelected ? "#ffa6c1" : "#f01c8b",
-                },
-              ]}
-              disabled={!currentOptionSelected}
-              onPress={handleNext}
-            >
-              <Text allowFontScaling={false} style={styles.btnNextText}>NEXT
-                <AntDesign name="doubleright" size={22} color="#fff" />
-              </Text>
-            </TouchableOpacity>
-            } */}
-
+       
 
    
           </View>
-        </View>
+      
       </ScrollView>
       
       }
     
     </ImageBackground>
+    </View>
+
   );
 };
 
@@ -406,16 +390,17 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginVertical: 10,
     padding: 10,
-    borderRadius: 40,
-    backgroundColor: "#fff",
+    // borderRadius: 40,
+    // backgroundColor: "#fff",
     alignItems: "center",
     shadowColor: "#171717",
     shadowOffset: { width: -6, height: 6 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    borderColor: "#3c1642",
-    borderWidth: 2,
-    opacity: 0.8
+    // borderColor: "#fff",
+    // borderWidth: 2,
+    opacity: 0.8,
+    height:100
   },
   optionsText: {
     borderRadius: 5,
@@ -428,18 +413,24 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -3, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    flexDirection: "row"
+    flexDirection: "row",
+    borderColor:"#be95c4",
+    borderWidth:2,
+    
   },
   btnNext: {
     borderRadius: 30,
     width: Dimensions.get('screen').width * 0.5,
     backgroundColor: "#ffffff",
-    padding: 20,
-    alignItems: "center"
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: "center",
+    borderWidth:2,
+    borderColor:"#fff"
   },
   btnNextText: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 18,
     letterSpacing: 1.1,
   },
 });
@@ -449,7 +440,7 @@ export default Quiz;
 
 
 
-// when within 60 sec user not submit the answer then move to the next questions
+
 
 
 

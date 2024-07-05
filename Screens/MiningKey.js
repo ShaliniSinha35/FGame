@@ -10,7 +10,8 @@ import {
   ImageBackground,
   BackHandler,
   Alert,
-  Button
+  Button,
+
 } from "react-native";
 import { Vibration } from 'react-native';
 import miningQuestion from "../miningQuestion";
@@ -22,7 +23,7 @@ import CustomAlert from "../Components/CustomAlert";
 import FailureAlert from "../Components/FailureAlert";
 // import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
 import Dialog from 'react-native-alert-dialog';
-
+import { useFocusEffect } from '@react-navigation/native';
 const height = Dimensions.get("screen").height;
 const width = Dimensions.get('screen').width;
 
@@ -65,7 +66,24 @@ const MiningKey = ({ navigation }) => {
 
 
 
-  
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        showExitAlert();
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+
+
+  const showExitAlert = () => {
+   navigation.navigate("Mining")
+  };
+
 
 
 
@@ -177,7 +195,7 @@ const MiningKey = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground source={require("../assets/mjk.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
+    <ImageBackground source={require("../assets/B5.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
       <ScrollView>
     
         <View style={styles.container}>
@@ -214,19 +232,20 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   subContainer: {
-    marginTop: 15,
-    marginVertical: 10,
-    padding: 10,
+    marginTop: 35,
+    marginVertical: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderRadius: 40,
-    backgroundColor: "#fff",
+    backgroundColor: "#7f0475",
     alignItems: "center",
-    shadowColor: "#171717",
-    shadowOffset: { width: -6, height: 6 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    borderColor: "#3c1642",
+    // shadowColor: "#171717",
+    // shadowOffset: { width: -6, height: 6 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 3,
+    borderColor: "#fff",
     borderWidth: 2,
-    opacity: 0.8
+    // opacity: 0.8
   },
   optionsText: {
     borderRadius: 5,
@@ -239,7 +258,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -3, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-    flexDirection: "row"
+    flexDirection: "row",
+    borderColor:"#be95c4",
+    borderWidth:2,
   },
   btnNext: {
     borderRadius: 30,

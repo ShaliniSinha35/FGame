@@ -20,7 +20,7 @@ const ProgressBar = ({ progress,index }) => {
           {
             height: 5,
             borderRadius: 5,
-            backgroundColor: "#f01c8b" + "90",
+            backgroundColor: "#fe11fe" + "90",
           },
           {
             width: progressAnim,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     width: "60%",
     height: 5,
     borderRadius: 5,
-    backgroundColor: "#00000020",
+    backgroundColor: "#fff",
     marginBottom: 10,
   }
 });

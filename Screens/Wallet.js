@@ -24,7 +24,8 @@ const Wallet = () => {
              userId: userInfo.id
            }
           })
-          console.log(res,"27")
+   
+
           const data= res.data
           console.log("30",data[0].amount)
           setWallet(data[0].amount)

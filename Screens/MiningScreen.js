@@ -23,30 +23,64 @@ const MiningScreen = ({navigation}) => {
 
   const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
 
-
   const [wallet,setWallet] = useState(0)
+  const {isWalletUpdated,setIsWalletUpdated}= useAuth()
+
   
      const getWalletValue = async()=>{
       if(userInfo){
         try{
-          const res= await axios.get("http:192.168.0.110:3000/wallet",{
+          const res= await axios.get("https://fiedex.com/fiedex/wallet",{
            params:{
              userId: userInfo.id
            }
           })
+          console.log(res,"27")
+
           const data= res.data
           console.log("30",data[0].amount)
           setWallet(data[0].amount)
+          setBalance(data[0].amount)
         }
         catch(err){
-         console.log(err)
+         console.log("32",err)
         }
       }
       
      }
      useEffect(()=>{
       getWalletValue()
-     },[])
+     },[isWalletUpdated])
+
+
+     const updateWalletValue = async () => {
+      if (userInfo && userInfo.id ) {
+        console.log("Updating wallet for userId:", userInfo.id, "with amount:", balance - wallet);
+        const amount= balance - wallet
+        console.log(amount)
+        try {
+          const res = await axios.get("https://fiedex.com/fiedex/updateWallet", {
+           params: {
+             userId: userInfo.id,
+             amount: balance - wallet
+            }
+        });
+        console.log("Wallet updated:", res.data);
+          setIsWalletUpdated(true);
+         } catch (err) {
+           console.error("Error updating wallet:", err.response ? err.response.data : err.message);
+         }}
+        
+       else {
+        console.error("userInfo or score is not properly defined");
+      }
+    }; 
+   
+
+    // useEffect(() => {
+    //    const intervalId = setInterval(updateWalletValue(), 180000);
+    //   return () => clearInterval(intervalId); 
+    // },[balance]);
 
   const {key} = useAuth()
 
@@ -68,6 +102,19 @@ const MiningScreen = ({navigation}) => {
 
  
   useEffect(() => {
+
+
+    if (progress >= 1) {
+      console.log('Progress is completed!');
+      if (animation.current) {
+        animation.current.pause(); 
+        setIsAnimating(false); 
+        setTapCount(0); 
+        return;
+      }
+    }
+
+
     const playAnimation = async () => {
       let count = tapCount;
       console.log("tapcount", tapCount);
@@ -76,7 +123,6 @@ const MiningScreen = ({navigation}) => {
         if (animation.current) {
           await animation.current.play();
           const newbalance = parseInt(balance) + 1
-       
           setBalance(newbalance);
            
           await new Promise(resolve => {
@@ -103,22 +149,29 @@ const MiningScreen = ({navigation}) => {
 
 
 
-
-
   useEffect(() => {
+
+ 
     let intervalId;
     if (isAnimating) {
       intervalId = setInterval(() => {
         setProgress(prevProgress => prevProgress + 0.1);
-      }, 120000);
+      }, 180000);
     }
     return () => clearInterval(intervalId);
   }, [isAnimating]);
 
 
-  
-   
   useEffect(() => {
+    if (progress >= 1) {
+      console.log('Progress is completed!');
+      if (animation.current) {
+        animation.current.pause(); 
+        setIsAnimating(false); 
+        setTapCount(0); 
+        return;
+      }
+    }
     let intervalId;
     if (isAnimating) {
       intervalId = setInterval(() => {
@@ -130,12 +183,20 @@ const MiningScreen = ({navigation}) => {
     return () => clearInterval(intervalId);
   });
 
-
-
+  useEffect(() => {
+    if (progress >= 1) {
+      console.log('Progress is completed!');
+      if (animation.current) {
+        animation.current.pause(); 
+      }
+    }
+  }, [progress]);
 
   useEffect(() => {
     if (animation.current) {
       animation.current.speed = animationSpeed;
+      setIsAnimating(false); 
+      setTapCount(0); 
     }
   }, [animationSpeed]);
 
@@ -148,7 +209,7 @@ const MiningScreen = ({navigation}) => {
         <View style={{ alignItems: "center", paddingTop: 0 }}>
 
           {/* header */}
-          <View style={{ width: width, backgroundColor: "#3c1642", flexDirection: "row", alignItems: "center", justifyContent: "space-around", padding: 5, borderTopLeftRadius: 0, borderBottomWidth: 2, borderColor: "#fff" }}>
+          <View style={{ width: width, backgroundColor: "#3c1642", flexDirection: "row", alignItems: "center", justifyContent: "space-around", padding: 5, borderTopLeftRadius: 0, borderBottomWidth: 0, borderColor: "#fff" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <View style={styles.profileCont}>
                 <Image source={require("../assets/user.png")} style={{ height: 40, width: 35, resizeMode: "contain" }}></Image>
@@ -168,13 +229,13 @@ const MiningScreen = ({navigation}) => {
           <LottieView
             ref={animation}
             style={{
-              width: 570,
-              height: 260,
+              width: 430,
+              height: 250,
               backgroundColor: 'transparent',
               margin: 0,
-              paddingTop: 100,
-             paddingRight: 300,
-             marginTop:5,
+              // paddingTop: 100,
+            //  paddingRight: 300,
+             marginTop:15,
              margiLeft:15
 
             }}
@@ -182,7 +243,7 @@ const MiningScreen = ({navigation}) => {
             
             // loop={true}
             speed={1.5}
-            source={require('../assets/animation.json')}
+            source={require('../assets/data1.json')}
             onAnimationFinish={() => {
               console.log(balance)
               setAnimationLoopCount(prevCount => prevCount + 1);
@@ -208,7 +269,7 @@ const MiningScreen = ({navigation}) => {
 
 
           {/* score */}
-          <View style={{ width: width, backgroundColor: "#3c1642", flexDirection: "row", alignItems: "center", justifyContent: "space-around", padding: 8, borderTopLeftRadius: 0, borderTopWidth: 2, borderColor: "#fff",marginTop:5 }}>
+          <View style={{ width: width, backgroundColor: "#3c1642", flexDirection: "row", alignItems: "center", justifyContent: "space-around", padding: 8, borderTopLeftRadius: 0, borderTopWidth: 0, borderColor: "#fff",marginTop:5 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image source={require("../assets/coin.png")} style={{ height: 35, width: 35, resizeMode: "contain" }}></Image>
               <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 18 }}>{balance.toLocaleString()}</Text>
@@ -239,12 +300,12 @@ const MiningScreen = ({navigation}) => {
             <Text allowFontScaling={false} style={{ fontSize: 10,color:"#fff" }}>(Proof of work time)</Text>
           </View>
 
-          <Progress.Bar progress={progress} width={350} height={15} color='#fff' style={{ marginTop: 10 }} />
+          <Progress.Bar progress={progress} borderColor='#fff' width={350} height={15} color='#f01c8b' style={{ marginTop: 10 }} />
 
           {/* nft */}
 
           <View style={{ width: width, alignItems: "center", marginTop: 20 }}>
-            <View style={{ borderWidth: 2, borderColor: "#fff", borderRadius: 20, width: 350, backgroundColor: "#3c1642", elevation: 5, paddingBottom: 20 }}>
+            <View style={{ borderWidth: 2, borderColor: "#fff", borderRadius: 20, width: 350, backgroundColor: "#7f0475", elevation: 5, paddingBottom: 20 }}>
               <View style={{ width: 350, alignItems: "center", marginTop: 5 }}>
                 <Text allowFontScaling={false} style={{ color: "#fee440", fontSize: 25, alignItems: "center" }}>nFT Toolbox</Text>
               </View>
@@ -294,7 +355,7 @@ const MiningScreen = ({navigation}) => {
           {/* tap button */}
 
           <View style={{ width: 350, alignItems: "center", marginTop: 20 }}>
-            <TouchableOpacity onPress={handleTap} style={{ backgroundColor: "#3c1642", paddingHorizontal:45,paddingVertical:10, alignItems: "center", justifyContent: "center", borderRadius: 25, borderWidth: 2, borderColor: "#f01c8b",  }}>
+            <TouchableOpacity onPress={handleTap} style={{ backgroundColor: "#3c1642", paddingHorizontal:45,paddingVertical:10, alignItems: "center", justifyContent: "center", borderRadius: 20, borderWidth: 2, borderColor: "#f01c8b",  }}>
               <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 22,fontWeight:900 }}>Tap to Start</Text>
             </TouchableOpacity>
           </View>

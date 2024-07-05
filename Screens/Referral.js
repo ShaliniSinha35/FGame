@@ -6,18 +6,40 @@ import { useSelector } from 'react-redux';
 import { SocialIcon } from 'react-native-elements'
 const height = Dimensions.get('screen').height
 const width = Dimensions.get('screen').width
+import axios from 'axios';
 import { useAuth } from '../AuthContext';
-
 const Referral = () => {
 
   const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
-
+    console.log(userInfo)
 
   const [animatedValue] = useState(new Animated.Value(0));
   const [textWidth, setTextWidth] = useState(0);
   const containerWidth = Dimensions.get('screen').width;
   const textRef = useRef(null);
+  const [refer_by,setRefer]= useState(userInfo?userInfo.refer_code:null)
   const [referralLink, setReferralLink] = useState('https://expo.dev/artifacts/eas/hQ7QeYzY9jMDot6HFS6Hnx.apk');
+  const [referralCount, setReferralCount] = useState(null);
+  const [wallet,setWallet] = useState(0)
+  const {isWalletUpdated,setIsWalletUpdated}= useAuth()
+
+
+  const fetchReferralCount = async () => {
+    try {
+      const response = await axios.get(`https://fiedex.com/fiedex/referral-count/${userInfo.id}`);
+      setReferralCount(response.data.referral_count);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+  
+if(userInfo){
+  fetchReferralCount()
+}
+  
+  }, [userInfo]);
 
 
   useEffect(() => {
@@ -71,8 +93,9 @@ const Referral = () => {
 
   
   const shareReferralLink = async (platform) => {
+
     try {
-      const message = `Check this out: ${referralLink}`;
+      const message = `Download the app now: ${referralLink} use this refer_code: ${refer_by} `;
       let url;
 
       if (platform === 'whatsapp') {
@@ -95,6 +118,36 @@ const Referral = () => {
       Alert.alert('Error', 'Could not share referral link');
     }
   };
+
+
+
+
+ 
+
+  
+     const getWalletValue = async()=>{
+      if(userInfo){
+        try{
+          const res= await axios.get("https://fiedex.com/fiedex/wallet",{
+           params:{
+             userId: userInfo.id
+           }
+          })
+          console.log(res,"27")
+
+          const data= res.data
+          console.log("30",data[0].amount)
+          setWallet(data[0].amount)
+        }
+        catch(err){
+         console.log("32",err)
+        }
+      }
+      
+     }
+     useEffect(()=>{
+      getWalletValue()
+     },[isWalletUpdated])
   return (
     <ScrollView>
       <ImageBackground source={require("../assets/B5.png")} style={{ width: width,paddingBottom:10 }}>
@@ -225,7 +278,7 @@ const Referral = () => {
 
             <View style={{ width: width, justifyContent: "flex-start", paddingLeft: 20, flexDirection: "row", marginTop: 10 }}>
               <Image source={require("../assets/coin.png")} style={{ width: 20, height: 20, resizeMode: "contain" }}></Image>
-                 <Text allowFontScaling={false} style={{ color: "#fff", marginLeft: 10 }}>0.00   <AntDesign name="doubleright" size={10} color="#fff" /></Text>
+                 <Text allowFontScaling={false} style={{ color: "#fff", marginLeft: 10 }}>{wallet}.00   <AntDesign name="doubleright" size={10} color="#fff" /></Text>
             </View>
 
 
@@ -245,7 +298,7 @@ const Referral = () => {
 
             <View style={{ width: width, justifyContent: "flex-start", paddingLeft: 20, flexDirection: "row", marginTop: 10 }}>
               <FontAwesome name="group" size={24} color="#f01c8b" />
-                 <Text allowFontScaling={false} style={{ color: "#fff", marginLeft: 10, fontSize: 18 }}>Partners :  0</Text>
+                 <Text allowFontScaling={false} style={{ color: "#fff", marginLeft: 10, fontSize: 18 }}>Partners : {referralCount}</Text>
             </View>
 
             <View style={{ width: 350, alignItems: "center", marginTop: 10 }}>

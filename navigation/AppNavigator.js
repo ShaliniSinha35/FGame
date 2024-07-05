@@ -29,6 +29,8 @@ import Contact from "../Screens/Contact";
 import Deregister from "../Screens/Deregister";
 import { useSelector, useDispatch } from 'react-redux';
 import MiningKey from "../Screens/MiningKey";
+import Demo from "../Screens/Demo";
+import ForgotPassword from "../Screens/ForgotPassword";
 
 
 const Stack = createStackNavigator();
@@ -224,10 +226,10 @@ const AppNavigator = () => {
                 />
                 <Tab.Screen
                     name="Reward"
-                    component={RewardScreen}
+                    component={Demo}
                     options={{
                         headerShown: false,
-                        tabBarLabel: "Reward",
+                        tabBarLabel: "Opinion",
                         tabBarLabelStyle: { color: "#fff", fontSize: 12, marginBottom: 5 },
                         tabBarIcon: ({ focused }) =>
                             focused ? (
@@ -371,6 +373,12 @@ const AppNavigator = () => {
                     component={RegisterScreen}
                     options={{ headerShown: false }}
                 />
+                     <Stack.Screen
+                    name="Forgot"
+                    component={ForgotPassword}
+                    options={{ headerShown: false }}
+                />
+
 
 
 
@@ -386,6 +394,12 @@ const AppNavigator = () => {
 
 
             <Stack.Navigator >
+            {/* <Stack.Screen
+                            name="Login"
+                            component={LoginScreen}
+                            options={{ headerShown: false }}
+                        /> */}
+
 
 
                 {
@@ -478,6 +492,11 @@ const AppNavigator = () => {
                     options={{ headerShown: false, tabBarVisible: false, tabBarStyle: { display: 'none' }, tabBarVisible: false }}
 
                 />
+                      <Stack.Screen
+                    name="Forgot"
+                    component={ForgotPassword}
+                    options={{ headerShown: false, tabBarVisible: false, tabBarStyle: { display: 'none' }, tabBarVisible: false }}
+                />
 
 
             </Stack.Navigator>
@@ -505,8 +524,3 @@ const styles = StyleSheet.create({
 });
 
 export default AppNavigator;
-
-
-
-
-

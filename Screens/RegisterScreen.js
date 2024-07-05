@@ -46,6 +46,16 @@ const RegisterScreen = ({ navigation }) => {
   const [flag, setFlag] = useState(false);
 
 
+
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isCPasswordFocused, setIsCPasswordFocused] = useState(false);
+  const [isNameFocused,setIsNameFocused] = useState(false)
+  const [isMobileFocused,setIsMobileFocused] = useState(false)
+  const [isReferralFocused,setIsReferralFocused] = useState(false)
+
+
+
   const [countryCode, setCountryCode] = useState('IN'); // Default country code
 
 
@@ -109,11 +119,14 @@ const RegisterScreen = ({ navigation }) => {
       errors.terms = "Please accept the terms and conditions.";
     }
 
-    setErrors(errors);
+    setErr(errors);
     setIsFormValid(Object.keys(errors).length === 0);
   };
 
   const handleSubmit = async () => {
+    console.log("117",isFormValid)
+
+   const code = Math.floor(1000 + Math.random() * 9000)
     if (isFormValid) {
       const userData = {
         name,
@@ -121,8 +134,10 @@ const RegisterScreen = ({ navigation }) => {
         country_code: countryCode,
         email,
         password,
-        refer_code: referral,
+        refer_code: `FIE${code}`,
+        refer_by:referral
       };
+      console.log(userData)
   
       try {
         const res = await axios.post("https://fiedex.com/fiedex/register", userData);
@@ -184,7 +199,7 @@ const RegisterScreen = ({ navigation }) => {
 
 
               <View style={{ marginTop: 20 }}>
-                <View style={styles.inputBoxCont}>
+                <View style={[styles.inputBoxCont, isNameFocused && styles.inputBoxFocused]}>
                   <FontAwesome name="user" size={24} color="black"
                     style={{ marginLeft: 8 }} />
 
@@ -192,6 +207,8 @@ const RegisterScreen = ({ navigation }) => {
                   <TextInput
                     value={name}
                     onChangeText={(text) => setName(text)}
+                    onFocus={()=>setIsNameFocused(true)}
+                    onBlur={()=>setIsNameFocused(false)}
                     style={{
                       color: "black",
                       marginVertical: 10,
@@ -206,7 +223,7 @@ const RegisterScreen = ({ navigation }) => {
 
 
               <View>
-                <View style={styles.inputBoxCont}>
+                <View style={[styles.inputBoxCont, isMobileFocused && styles.inputBoxFocused]}>
                   <Ionicons name="call" size={24} color="black" style={{ marginLeft: 8 }} />
                   <CountryPicker
                     countryCode={countryCode}
@@ -222,6 +239,8 @@ const RegisterScreen = ({ navigation }) => {
                     value={mobile}
                     keyboardType="numeric"
                     onChangeText={(text) => setMobile(text)}
+                    onFocus={()=> setIsMobileFocused(true)}
+                    onBlur={()=> setIsMobileFocused(false)}
                     style={{
                       color: "black",
                       marginVertical: 10,
@@ -236,7 +255,7 @@ const RegisterScreen = ({ navigation }) => {
               </View>
 
               <View>
-                <View style={styles.inputBoxCont}>
+                <View style={[styles.inputBoxCont, isEmailFocused && styles.inputBoxFocused]}>
                   <MaterialIcons
                     style={{ marginLeft: 8 }}
                     name="email"
@@ -247,6 +266,8 @@ const RegisterScreen = ({ navigation }) => {
                   <TextInput
                     value={email}
                     onChangeText={(text) => setEmail(text)}
+                    onFocus={()=>setIsEmailFocused(true)}
+                    onBlur={()=>setIsEmailFocused(false)}
                     style={{
                       color: "black",
                       marginVertical: 10,
@@ -265,7 +286,7 @@ const RegisterScreen = ({ navigation }) => {
 
 
               <View>
-                <View style={styles.inputBoxCont}>
+                <View style={[styles.inputBoxCont, isPasswordFocused && styles.inputBoxFocused]}>
 
                   {
                     hidePass ? <Entypo name="eye-with-line" onPress={() => setHidePass(!hidePass)} size={24} color="black"
@@ -278,6 +299,8 @@ const RegisterScreen = ({ navigation }) => {
                     value={password}
                     onChangeText={(text) => setPassword(text)}
                     secureTextEntry={hidePass ? true : false}
+                    onFocus={()=>setIsPasswordFocused(true)}
+                onBlur={()=>setIsPasswordFocused(false)}
                     style={{
                       color: "black",
                       marginVertical: 10,
@@ -296,7 +319,7 @@ const RegisterScreen = ({ navigation }) => {
 
 
               <View>
-                <View style={styles.inputBoxCont}>
+                <View style={[styles.inputBoxCont, isCPasswordFocused && styles.inputBoxFocused]}>
 
                   {
                     cHidePass ? <Entypo name="eye-with-line" onPress={() => setCHidePass(!cHidePass)} size={24} color="black"
@@ -310,6 +333,8 @@ const RegisterScreen = ({ navigation }) => {
                     onChangeText={(text) => setCPass(text)}
                     secureTextEntry={cHidePass ? true : false}
                     onKeyPress={(e) => console.log(e)}
+                    onFocus={()=>setIsCPasswordFocused(true)}
+                    onBlur={()=>setIsCPasswordFocused(false)}
                     style={{
                       color: "black",
                       marginVertical: 10,
@@ -319,12 +344,13 @@ const RegisterScreen = ({ navigation }) => {
                     placeholder="Confirm your Password"
                   />
                 </View>
+              
                 {error.cPass && flag && <Text style={{ color: "red" }}>{error.cPass}</Text>}
               </View>
 
 
               <View>
-                <View style={styles.inputBoxCont}>
+                <View style={[styles.inputBoxCont, isReferralFocused && styles.inputBoxFocused]}>
                   <Ionicons name="send" style={{ marginLeft: 8 }}
                     size={24}
                     color="black"
@@ -332,8 +358,9 @@ const RegisterScreen = ({ navigation }) => {
 
                   <TextInput
                     value={referral}
-                    keyboardType="numeric"
                     onChangeText={(text) => setReferral(text)}
+                    onFocus={()=>setIsReferralFocused(true)}
+                    onBlur={()=>setIsReferralFocused(false)}
                     style={{
                       color: "black",
                       marginVertical: 10,
@@ -421,6 +448,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: width * 0.9
 
+  },
+  inputBoxFocused: {
+    borderColor: "#121212",
+    borderWidth: 2,
   },
   forgotCont: {
     marginTop: 14,

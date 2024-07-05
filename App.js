@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar,ActivityIndicator } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';
 import { AuthProvider } from './AuthContext';
 import { Provider } from 'react-redux';
@@ -13,7 +13,7 @@ export default function App() {
     <View style={styles.container}>
 
 <Provider store={store}>
-        <PersistGate  persistor={persistor}>
+        <PersistGate persistor={persistor}>
       <AuthProvider>    
           <AppNavigator></AppNavigator>
       </AuthProvider>
@@ -33,6 +33,11 @@ export default function App() {
     </View>
   );
 }
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container: {

@@ -1,14 +1,17 @@
 import React, { useRef, useEffect,useState } from 'react';
 import { View, Text, TouchableOpacity, Animated, Easing, Share, Linking,Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; // Make sure to import AntDesign from the correct package
-
+import { useSelector } from 'react-redux';
 const PopupButton = () => {
+  const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
+
   const animation = useRef(new Animated.Value(1)).current; 
   const [referralLink, setReferralLink] = useState('https://expo.dev/artifacts/eas/hQ7QeYzY9jMDot6HFS6Hnx.apk');
-
+  const [refer_by,setRefer]= useState(userInfo?userInfo.refer_code:null)
   const shareReferralLink = async (platform) => {
+    
     try {
-      const message = `Check this out: ${referralLink}`;
+      const message = `Download the app now: ${referralLink} use this refer_code: ${refer_by} `;
       let url;
 
       if (platform === 'whatsapp') {

@@ -15,26 +15,27 @@ const Questions = ({ index, question }) => {
       >
         <Text
         allowFontScaling={false}
-          style={{ color: "#333", fontSize: 15, opacity: 0.6, marginRight: 2 }}
+          style={{ color: "#fff", fontSize: 15, opacity: 1, marginRight: 2 ,fontWeight:"bold"}}
         >
           {index + 1}
         </Text>
-        <Text allowFontScaling={false} style={{ color: "#333", fontSize: 13, opacity: 0.6 }}>
+        <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 13, opacity: 1,fontWeight:"bold" }}>
           / {data.length}
         </Text>
       </View>
 
       {/* Question */}
-      <Text
+      {/* <Text
       allowFontScaling = {false}
         style={{
-          color: "#333",
+          color: "#fff",
           fontSize: 18,
           textAlign: "center",
+          fontWeight:1000
         }}
       >
-        {question}
-      </Text>
+       {index + 1}. {question}
+      </Text> */}
     </View>
   );
 };

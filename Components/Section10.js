@@ -16,7 +16,7 @@ const Section10 = ({navigation}) => {
 <View style={{flexDirection:"row",justifyContent:"space-between",width:280,alignItems:"center"}}>
 <View style={{ }}>
 
-    <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 16 }}>Crypto Camp </Text> 
+    <Text allowFontScaling={false} style={{ color: "#fff", fontSize: 16,fontWeight:600 }}>Crypto News </Text> 
     <Text allowFontScaling={false}
                     style={{
                         height: 1,

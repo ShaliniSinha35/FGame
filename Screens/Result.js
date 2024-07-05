@@ -72,7 +72,7 @@ const Result = ({ navigation, route }) => {
     <ImageBackground source={require("../assets/B5.png")} style={styles.container}>
       <View style={styles.subContainer}>
         <View style={{flexDirection:"row"}}>
-        <Text style={{ fontSize: 20,color:"#fff" }}>  Your Points</Text>
+        <Text style={{ fontSize: 20,color:"#fff" }}> Your Points</Text>
         {/* <Image source={require("../assets/money.png")} style={{height:30,width:30,resizeMode:"contain"}}></Image> */}
         </View>
       
@@ -149,7 +149,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     width: "50%",
     borderRadius: 15,
-    marginTop:8
+    marginTop:8,
+    borderWidth:2,
+    borderColor:"#fff"
   },
   btnText: {
     textAlign: "center",
