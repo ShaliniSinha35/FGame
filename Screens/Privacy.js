@@ -49,7 +49,7 @@ const tagsStyles = {
 
   return (
     <ScrollView>
-    <ImageBackground source={require("../assets/B7.png")} style={{  width: width }}>
+    <ImageBackground source={require("../assets/B7.jpg")} style={{  width: width }}>
 
  
 

@@ -132,7 +132,7 @@ const renderWinnerItem = ({ item }) => {
 };
   return (
     <ScrollView>
-    <ImageBackground source={require("../assets/B5.png")} style={{ height: height, width: width, alignItems: "center",paddingTop:70 }} >
+    <ImageBackground source={require("../assets/B5.jpg")} style={{ height: height, width: width, alignItems: "center",paddingTop:70 }} >
 
         <View style={{width:350,backgroundColor:"#88047d",padding:15,borderRadius:10,opacity:0.9,flexDirection:"row",justifyContent:"space-around",alignItems:"center",borderWidth:2,borderColor:"#fff"}}>
           <View style={{justifyContent:"center",alignItems:"center"}}>

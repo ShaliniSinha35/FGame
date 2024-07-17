@@ -69,7 +69,7 @@ const Result = ({ navigation, route }) => {
   
   return (
     // <Text style={{margin:60}}>{score}</Text>
-    <ImageBackground source={require("../assets/B5.png")} style={styles.container}>
+    <ImageBackground source={require("../assets/B5.jpg")} style={styles.container}>
       <View style={styles.subContainer}>
         <View style={{flexDirection:"row"}}>
         <Text style={{ fontSize: 20,color:"#fff" }}> Your Points</Text>

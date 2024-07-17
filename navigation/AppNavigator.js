@@ -31,7 +31,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import MiningKey from "../Screens/MiningKey";
 import Demo from "../Screens/Demo";
 import ForgotPassword from "../Screens/ForgotPassword";
-
+import CandleStickChart from "../Screens/TradingViewWidget";
+import Example1 from "../Screens/Example1";
+import NotificationScreen from "../Screens/NotificationScreen";
+import NewsScreen from "../Screens/NewsScreen";
+import ConvertFiedex from "../Screens/ConvertFiedex";
+import StakingScreen from "../Screens/StakingScreen";
+import BoostScreen from "../Screens/BoostScreen";
+import LevelScreen from "../Screens/LevelScreen";
+import LeaderboardScreen from "../Screens/LeaderboardScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -226,7 +234,7 @@ const AppNavigator = () => {
                 />
                 <Tab.Screen
                     name="Reward"
-                    component={Demo}
+                    component={Example1}
                     options={{
                         headerShown: false,
                         tabBarLabel: "Opinion",
@@ -379,8 +387,48 @@ const AppNavigator = () => {
                     options={{ headerShown: false }}
                 />
 
+<Stack.Screen
+                    name="notification"
+                    component={NotificationScreen}
+                    options={{ headerShown: false }}
+                />
+<Stack.Screen
+                    name="news"
+                    component={NewsScreen}
+                    options={{ headerShown: false }}
+                />
+
+<Stack.Screen
+                    name="convert"
+                    component={ConvertFiedex}
+                    options={{ headerShown: false }}
+                />
+
+<Stack.Screen
+                    name="staking"
+                    component={StakingScreen}
+                    options={{ headerShown: false }}
+                />
 
 
+                
+<Stack.Screen
+                    name="boost"
+                    component={BoostScreen}
+                    options={{ headerShown: false }}
+                />
+<Stack.Screen
+                    name="level"
+                    component={LevelScreen}
+                    options={{ headerShown: false }}
+                />
+
+
+<Stack.Screen
+                    name="leaderBoard"
+                    component={LeaderboardScreen}
+                    options={{ headerShown: false }}
+                />
 
             </Stack.Navigator>
         );
@@ -497,7 +545,24 @@ const AppNavigator = () => {
                     component={ForgotPassword}
                     options={{ headerShown: false, tabBarVisible: false, tabBarStyle: { display: 'none' }, tabBarVisible: false }}
                 />
+                
+<Stack.Screen
+                    name="notification"
+                    component={NotificationScreen}
+                    options={{ headerShown: false }}
+                />
 
+<Stack.Screen
+                    name="news"
+                    component={NewsScreen}
+                    options={{ headerShown: false }}
+                />
+
+<Stack.Screen
+                    name="boost"
+                    component={BoostScreen}
+                    options={{ headerShown: false }}
+                />
 
             </Stack.Navigator>
 

@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView,Animated, Share,Alert, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, Dimensions, TouchableOpacity, Image, ScrollView,Animated, Share,Alert, StyleSheet,Linking } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 import PopupButton from '../Components/PopupButton';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
@@ -90,34 +90,53 @@ if(userInfo){
 
   ]
 
-
-  
   const shareReferralLink = async (platform) => {
-
+    const referralLink = 'https://fiedex.com'; // Replace with your actual referral link
+    const refer = refer_by; // Replace with your actual referral code
+  
     try {
-      const message = `Download the app now: ${referralLink} use this refer_code: ${refer_by} `;
+      const message = `Download the app now: ${referralLink} use this refer_code: ${refer}`;
       let url;
-
-      if (platform === 'whatsapp') {
-        url = `whatsapp://send?text=${encodeURIComponent(message)}`;
-      } else if (platform === 'facebook') {
-        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+  
+      switch (platform) {
+        case 'whatsapp':
+          url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+          break;
+        case 'facebook':
+          url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}`;
+          break;
+        case 'instagram':
+          url = `http://instagram.com`;
+          break;
+        case 'twitter':
+          url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+          break;
+        case 'telegram':
+          url = `tg://msg?text=${encodeURIComponent(message)}`;
+          break;
+        case 'generic':
+          url = null; // Set to null to use the generic share functionality
+          break;
+        default:
+          url = null;
       }
-
+  
       if (url) {
         const supported = await Linking.canOpenURL(url);
         if (supported) {
           await Linking.openURL(url);
         } else {
-          Alert.alert('Error', `Cannot open URL: ${url}. Make sure the app is installed.`);
+          // Alert.alert('Error', `Cannot open URL: ${url}. Make sure the app is installed.`);
         }
       } else {
         await Share.share({ message });
       }
     } catch (error) {
-      Alert.alert('Error', 'Could not share referral link');
+      // Alert.alert('Error', `Could not share referral link: ${error.message}`);
     }
   };
+  
+  
 
 
 
@@ -150,7 +169,7 @@ if(userInfo){
      },[isWalletUpdated])
   return (
     <ScrollView>
-      <ImageBackground source={require("../assets/B5.png")} style={{ width: width,paddingBottom:10 }}>
+      <ImageBackground source={require("../assets/B5.jpg")} style={{ width: width,paddingBottom:10 }}>
 
 
 
@@ -345,23 +364,35 @@ if(userInfo){
 
       
 
-        <View style={{ marginTop: 70, width: width, alignItems: "center" }}>
-             <Text allowFontScaling={false} style={{ color: "#fff" }}>Share with your friends :</Text>
-          <View style={{ width: width, justifyContent: "center", flexDirection: "row", marginTop: 10 }}>
-          {/* <SocialIcon
+        <View style={{ marginTop: 30, width: width, alignItems: "center" }}>
+          <View style={{ width: width, justifyContent: "center", flexDirection: "row", marginTop: 10,alignItems:"center" }}>
+          <SocialIcon
           type='facebook'
           onPress={() => shareReferralLink('facebook')}
         />
         <SocialIcon
           type='whatsapp'
           onPress={() => shareReferralLink('whatsapp')}
+        />
+           <SocialIcon
+          type='instagram'
+          onPress={() => shareReferralLink('instagram')}
+        />
+        <TouchableOpacity   onPress={() => shareReferralLink('twitter')}>
+          <Image source={require("../assets/twitter.png")} style={{height:55,width:55,resizeMode:"contain"}}></Image>
+        </TouchableOpacity>
+          {/* <SocialIcon
+          type='twitter'
+          onPress={() => shareReferralLink('twitter')}
         /> */}
         <SocialIcon
-          type='share-alt'
-          onPress={() => shareReferralLink('generic')}
+          type='telegram'
+          onPress={() => shareReferralLink('telegram')}
           style={styles.iconStyle}
         />
           </View>
+          <Text allowFontScaling={false} style={{ color: "#fff",marginTop:10 }}>Share with your friends</Text>
+
         </View>
 
    
@@ -374,7 +405,7 @@ if(userInfo){
 const styles = StyleSheet.create({
  
   iconStyle: {
-    backgroundColor: '#db4437', // Optional: to match Google's red color
+    backgroundColor: 'blue', // Optional: to match Google's red color
   },
   iconStyles: {
     backgroundColor: 'blue', // Optional: to match Google's red color

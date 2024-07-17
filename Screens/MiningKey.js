@@ -195,7 +195,7 @@ const MiningKey = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground source={require("../assets/B5.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
+    <ImageBackground source={require("../assets/B5.jpg")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
       <ScrollView>
     
         <View style={styles.container}>

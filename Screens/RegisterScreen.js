@@ -28,6 +28,7 @@ import axios from "axios";
 const height = Dimensions.get("screen").height;
 const width = Dimensions.get('screen').width;
 
+
 const RegisterScreen = ({ navigation }) => {
   const [check1, setCheck1] = useState(false);
   const { register } = useAuth()
@@ -57,7 +58,7 @@ const RegisterScreen = ({ navigation }) => {
 
 
   const [countryCode, setCountryCode] = useState('IN'); // Default country code
-
+  const {isWalletUpdated,setIsWalletUpdated}= useAuth()
 
   const handleCountryCodeChange = (country) => {
     setCountryCode(country.cca2);
@@ -124,9 +125,7 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("117",isFormValid)
-
-   const code = Math.floor(1000 + Math.random() * 9000)
+    const code = Math.floor(1000 + Math.random() * 9000);
     if (isFormValid) {
       const userData = {
         name,
@@ -135,44 +134,37 @@ const RegisterScreen = ({ navigation }) => {
         email,
         password,
         refer_code: `FIE${code}`,
-        refer_by:referral
+        refer_by: referral
       };
-      console.log(userData)
   
       try {
         const res = await axios.post("https://fiedex.com/fiedex/register", userData);
-        console.log(`Response Status: ${res.status}`);
-        console.log(`Response Status Text: ${res.statusText}`);
         console.log(res.data);
+  
+     
+  
         navigation.navigate("Login");
       } catch (error) {
-        // Enhanced error logging
         if (error.response) {
-          // The request was made and the server responded with a status code that falls out of the range of 2xx
-          console.log(`Error Response Status: ${error.response.status}`);
-          console.log(`Error Response Status Text: ${error.response.statusText}`);
-          console.log(`Error Response Data: ${JSON.stringify(error.response.data)}`);
-          console.log(`Error Response Headers: ${JSON.stringify(error.response.headers)}`);
-          
+          console.error(`Error Response Status: ${error.response.status}`);
+          console.error(`Error Response Status Text: ${error.response.statusText}`);
+          console.error(`Error Response Data: ${JSON.stringify(error.response.data)}`);
+          console.error(`Error Response Headers: ${JSON.stringify(error.response.headers)}`);
+  
           if (error.response.status === 400) {
             Alert.alert('Sign-up Failed', 'Email already exists!');
           } else {
             Alert.alert('Sign-up Failed', 'Please try again.');
           }
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log('Error Request: ', error.request);
-          Alert.alert('Sign-up Failed', 'No response from server.');
         } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error Message: ', error.message);
-          Alert.alert('Sign-up Failed', 'An unexpected error occurred.');
+          console.error('Error:', error.message);
         }
       }
     } else {
       setFlag(true);
     }
   };
+  
   
   
   

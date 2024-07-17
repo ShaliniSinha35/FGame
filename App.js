@@ -3,11 +3,20 @@ import { StyleSheet, Text, View, StatusBar,ActivityIndicator } from 'react-nativ
 import AppNavigator from './navigation/AppNavigator';
 import { AuthProvider } from './AuthContext';
 import { Provider } from 'react-redux';
-
+import * as SplashScreen from 'expo-splash-screen';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '././redux/store';
+import { useEffect } from 'react';
+
+
+SplashScreen.preventAutoHideAsync();
 export default function App() {
-  // AsyncStorage.clear()
+  useEffect(() => {
+ 
+    setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 3000);
+  }, []);
   
   return (
     <View style={styles.container}>

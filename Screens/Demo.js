@@ -82,7 +82,7 @@ export default function Demo() {
   };
 
   return (
-    <ImageBackground source={require("../assets/B5.png")} style={styles.container}>
+    <ImageBackground source={require("../assets/B5.jpg")} style={styles.container}>
 
 <Text allowFontScaling={false} 
               style={{

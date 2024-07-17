@@ -6,6 +6,7 @@ const width = Dimensions.get('screen').width
 const height = Dimensions.get('screen').height
 import { useAuth } from '../AuthContext';
 import messaging from '@react-native-firebase/messaging';
+import { useSelector } from 'react-redux';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
@@ -17,7 +18,8 @@ const Profile = ({navigation}) => {
 
 
 
-  
+  const userInfo = useSelector(state => state.user.userInfo? state.user.userInfo:null);
+
   
 
   const { login} = useAuth();
@@ -106,13 +108,13 @@ const Profile = ({navigation}) => {
 
   const profile =[
     
-    {
-      id:0,
-      name:"Notifications",
-      url:"",
-      icon:<FontAwesome name="bell" size={20} color="#f01c8b" />
+  //   {
+  //     id:0,
+  //     name:"Notifications",
+  //     url:"",
+  //     icon:<FontAwesome name="bell" size={20} color="#f01c8b" />
   
-  },
+  // },
 
   {
     id:1,
@@ -171,13 +173,13 @@ const Profile = ({navigation}) => {
 
     <ScrollView>
 
-    <ImageBackground source={require("../assets/B5.png")} style={{height:height,width:width,resizeMode:"contain",borderColor:"black",alignItems:"center",padding:20}} imageStyle={{borderRadius:0}} >
+    <ImageBackground source={require("../assets/B5.jpg")} style={{height:height,width:width,resizeMode:"contain",borderColor:"black",alignItems:"center",padding:20}} imageStyle={{borderRadius:0}} >
 
            <View style={styles.profileCont}>
               <Image source={require("../assets/user.png")} style={{ height: 65, width: 60, resizeMode: "contain" }}></Image>
           
             </View>
-            <Text allowFontScaling={false} style={{fontWeight:600,color:"#fff",marginTop:10}}>{mobile}</Text>
+            <Text allowFontScaling={false} style={{fontWeight:600,color:"#fff",marginTop:10}}>{userInfo?userInfo.name:""}</Text>
 
 
 
@@ -194,6 +196,8 @@ const Profile = ({navigation}) => {
          
 
            <View style={{marginTop:80}}>
+
+        
   
 
   {

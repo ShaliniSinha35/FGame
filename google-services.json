@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "857317776786",
-    "project_id": "fiedex-99505",
-    "storage_bucket": "fiedex-99505.appspot.com"
+    "project_number": "666127466352",
+    "project_id": "fiedex-b1d7c",
+    "storage_bucket": "fiedex-b1d7c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:857317776786:android:8bbcffdfd2acf9ebadb54b",
+        "mobilesdk_app_id": "1:666127466352:android:685411c8f8a01601e0d9b5",
         "android_client_info": {
           "package_name": "com.shalinisinha2.Fiedex"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA6maUZ7cRewPuKQ3eRN8MMgG5YA5E0bIU"
+          "current_key": "AIzaSyD_8darayubodRVPrVzh58pv96k9yoHfhY"
         }
       ],
       "services": {

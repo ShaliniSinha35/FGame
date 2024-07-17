@@ -9,7 +9,7 @@ const Section8 = ({ navigation }) => {
     return (
 <>
 
-        <ImageBackground source={require("../assets/bg9.png")} style={{ paddingBottom: 25, opacity: 1,paddingTop:20 }} imageStyle={{ borderRadius: 0 }}>
+        <ImageBackground source={require("../assets/bg9.png")} style={{ paddingBottom: 25, opacity: 0.9,paddingTop:20 }} imageStyle={{ borderRadius: 0 }}>
          
             <View style={{ width: width, alignItems: "center" }}>
                 
@@ -51,7 +51,7 @@ const Section8 = ({ navigation }) => {
                   
 
 
-                    <TouchableOpacity onPress={() => navigation.navigate("Quiz")} style={{ alignItems: "center", justifyContent: "center", padding: 15, backgroundColor: "#f01c8b", width: 140, borderRadius: 25,marginTop:15,borderWidth:2,borderColor:"#fff",flexDirection:"row" }}><Text allowFontScaling={false} style={{ fontSize: 12, color: "white", fontWeight: 700, backgroundColor: "#f01c8b" }}>Play Now <AntDesign name="doubleright" size={10} color="#fff" /> </Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("level")} style={{ alignItems: "center", justifyContent: "center", padding: 15, backgroundColor: "#f01c8b", width: 140, borderRadius: 25,marginTop:15,borderWidth:2,borderColor:"#fff",flexDirection:"row" }}><Text allowFontScaling={false} style={{ fontSize: 12, color: "white", fontWeight: 700, backgroundColor: "#f01c8b" }}>Quiz To Earn <AntDesign name="doubleright" size={10} color="#fff" /> </Text></TouchableOpacity>
                 </View>
 
 

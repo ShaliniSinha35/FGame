@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash.jpg",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,33 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.shalinisinha2.Fiedex"
+      "package": "com.shalinisinha2.Fiedex",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "fiedex.com",
+              "pathPrefix": "/"
+            },
+            {
+              "scheme": "whatsapp"
+            },
+            {
+              "scheme": "tg"
+            },
+            {
+              "scheme": "twitter"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+
     },
     "web": {
       "favicon": "./assets/favicon.png"

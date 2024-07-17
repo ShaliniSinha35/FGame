@@ -15,7 +15,7 @@ import { Vibration } from 'react-native';
 import data from "../data";
 import ProgressBar from "../Components/ProgressBar";
 import Questions from "../Components/Questions";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
@@ -25,6 +25,9 @@ const width = Dimensions.get('screen').width;
 
 const Quiz = ({ navigation }) => {
   // const allQuestions = data;
+  const route= useRoute()
+
+  console.log(route.params.level)
 
     const [allQuestions,setAllQuestions]= useState([])
 
@@ -294,9 +297,11 @@ const Quiz = ({ navigation }) => {
   };
 
   return (
-    <View style={{height:Dimensions.get("screen").height,backgroundColor:"black"}}>
+<ScrollView>
 
-<ImageBackground source={require("../assets/B5.png")} style={{ height: Dimensions.get('screen').height, opacity: 1 }}>
+<ImageBackground source={require("../assets/B5.jpg")} style={{  opacity: 1,paddingBottom:40 }}>
+ <Text allowFontScaling={false} style={{color:"#fff",marginLeft:20,marginTop:20,fontSize:16}}>{route.params.level}</Text>
+
       {allQuestions.length!=0 &&
         <ScrollView>
         <View style={{ width: width, alignItems: "center", marginTop: 20 }}>
@@ -336,7 +341,7 @@ const Quiz = ({ navigation }) => {
           marginTop:20
         }}
       >
-       {currentQuestionIndex + 1}. {allQuestions[currentQuestionIndex]?.question}
+      Q {currentQuestionIndex + 1}. {allQuestions[currentQuestionIndex]?.question}
       </Text>
 
  
@@ -374,7 +379,10 @@ const Quiz = ({ navigation }) => {
       }
     
     </ImageBackground>
-    </View>
+</ScrollView>
+
+
+
 
   );
 };

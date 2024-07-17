@@ -4,14 +4,15 @@ import { Entypo } from '@expo/vector-icons';
 import { useAuth } from '../AuthContext';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 
 import * as Font from 'expo-font';
 
-const loadFonts = async () => {
-  await Font.loadAsync({
-    'EB': require('../assets/fonts/ShortBaby-Mg2w.ttf'), 
-  });
-};
+// const loadFonts = async () => {
+//   await Font.loadAsync({
+//     'EB': require('../assets/fonts/ShortBaby-Mg2w.ttf'), 
+//   });
+// };
 
 
 
@@ -33,7 +34,25 @@ const Section1 = ({ navigation }) => {
           params: { userId: userInfo.id },
         });
         const data = res.data;
-        setWallet(data[0].amount);
+        console.log("36",data)
+   
+        if(res.data.length==0){
+          try {
+            const res1 = await axios.get("https://fiedex.com/fiedex/updateWallet", {
+              params: {
+                userId: userInfo.id,
+                amount: 100
+              }
+            });
+            console.log("Wallet updated:", res1.data);
+            setIsWalletUpdated(true);
+          } catch (err) {
+            console.error("Error updating wallet:", err);
+          }
+        }
+        else{
+          setWallet(data[0].amount);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -100,7 +119,7 @@ const Section1 = ({ navigation }) => {
           height: 250,
           resizeMode: "contain",
         }}
-        source={require("../assets/vfrg.png")}
+        source={require("../assets/x5.png")}
       >
         <View style={styles.container}>
           <TouchableOpacity style={{ flexDirection: "row", marginTop: 5 }} onPress={() => navigation.navigate("Wallet")}>
@@ -114,16 +133,27 @@ const Section1 = ({ navigation }) => {
               </View>
             </View>
           </TouchableOpacity>
+          <View style={{flexDirection:"row"}}>
           <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")} style={{ alignItems: "center" }}>
             <View style={styles.profileCont}>
               <Image source={require("../assets/user.png")} style={styles.userImage} />
             </View>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("notification")} style={{ alignItems: "center",marginTop:8,marginRight:10 }}>
+            {/* <View style={styles.notiCont}>
+            
+            </View>     */}
+
+             <Ionicons name="notifications" size={28} color="#fff" />  
+          </TouchableOpacity>
+          </View>
+       
+      
         </View>
-        <View style={styles.headingContainer}>
+        {/* <View style={styles.headingContainer}>
           <Text style={[styles.headingText, { fontFamily: "EB" }]}>Quiz To Earn</Text>
           <Text style={[styles.subheadingText, { fontFamily: "EB" }]}>Crypto</Text>
-        </View>
+        </View> */}
         <View style={styles.marqueeContainer}>
           {headings.map((item) => (
             <Animated.View key={item.id} style={{ transform: [{ translateX: animatedValue }], margin: 10 }}>
@@ -191,9 +221,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 5,
+    borderWidth:2,
+    borderColor:"#fff"
+  },
+  notiCont: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 5,
+    borderWidth:2,
+    borderColor:"#f01c8b",
+    marginTop:5,
+    opacity:0.9
   },
   userImage: {
-    height: 43,
+    height: 41,
     width: 40,
     resizeMode: "contain",
   },
